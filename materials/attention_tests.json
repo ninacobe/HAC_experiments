@@ -120,19 +120,15 @@
         ],
         "nr_reds": 52,
         "nr_total": 52,
-        "AI_reds": 32,
-        "AI_total": 32,
-        "AI_conf": 72
+        "AI_reds": 36,
+        "AI_total": 36,
+        "AI_conf": 76
     },
     {
         "id": 1,
         "batch": "attention",
         "stimulus": [
             [
-                "img/4_of_hearts.png",
-                "img/7_of_hearts.png",
-                "img/king_of_diamonds2.png",
-                "img/7_of_hearts.png",
                 "img/jack_of_diamonds2.png",
                 "img/8_of_hearts.png",
                 "img/ace_of_diamonds.png",
@@ -141,13 +137,13 @@
                 "img/king_of_hearts2.png",
                 "img/queen_of_hearts2.png",
                 "img/queen_of_diamonds2.png",
-                "img/ace_of_diamonds.png"
-            ],
-            [
+                "img/ace_of_diamonds.png",
                 "img/8_of_diamonds.png",
                 "img/2_of_diamonds.png",
                 "img/8_of_diamonds.png",
-                "img/ace_of_diamonds.png",
+                "img/ace_of_diamonds.png"
+            ],
+            [
                 "img/10_of_diamonds.png",
                 "img/queen_of_diamonds2.png",
                 "img/4_of_diamonds.png",
@@ -156,13 +152,13 @@
                 "img/10_of_diamonds.png",
                 "img/9_of_hearts.png",
                 "img/4_of_hearts.png",
-                "img/king_of_hearts2.png"
+                "img/king_of_hearts2.png",
+                "img/6_of_diamonds.png",
+                "img/queen_of_diamonds2.png",
+                "img/9_of_diamonds.png",
+                "img/4_of_hearts.png"
             ],
             [
-                "img/6_of_clubs.png",
-                "img/queen_of_clubs2.png",
-                "img/9_of_clubs.png",
-                "img/4_of_spades.png",
                 "img/5_of_clubs.png",
                 "img/5_of_clubs.png",
                 "img/4_of_clubs.png",
@@ -171,13 +167,13 @@
                 "img/7_of_clubs.png",
                 "img/8_of_clubs.png",
                 "img/10_of_spades.png",
-                "img/4_of_clubs.png"
-            ],
-            [
+                "img/4_of_clubs.png",
                 "img/5_of_clubs.png",
                 "img/4_of_spades.png",
                 "img/6_of_spades.png",
-                "img/4_of_spades.png",
+                "img/4_of_spades.png"
+            ],
+            [
                 "img/4_of_clubs.png",
                 "img/jack_of_spades2.png",
                 "img/king_of_clubs2.png",
@@ -186,14 +182,14 @@
                 "img/5_of_clubs.png",
                 "img/9_of_spades.png",
                 "img/7_of_spades.png",
-                "img/jack_of_spades2.png"
+                "img/jack_of_spades2.png",
+                "img/10_of_clubs.png",
+                "img/5_of_clubs.png",
+                "img/10_of_clubs.png",
+                "img/5_of_clubs.png"
             ]
         ],
         "cards": [
-            "img/4_of_hearts.png",
-            "img/7_of_hearts.png",
-            "img/king_of_diamonds2.png",
-            "img/7_of_hearts.png",
             "img/jack_of_diamonds2.png",
             "img/8_of_hearts.png",
             "img/ace_of_diamonds.png",
@@ -216,10 +212,10 @@
             "img/9_of_hearts.png",
             "img/4_of_hearts.png",
             "img/king_of_hearts2.png",
-            "img/6_of_clubs.png",
-            "img/queen_of_clubs2.png",
-            "img/9_of_clubs.png",
-            "img/4_of_spades.png",
+            "img/6_of_diamonds.png",
+            "img/queen_of_diamonds2.png",
+            "img/9_of_diamonds.png",
+            "img/4_of_hearts.png",
             "img/5_of_clubs.png",
             "img/5_of_clubs.png",
             "img/4_of_clubs.png",
@@ -241,12 +237,16 @@
             "img/5_of_clubs.png",
             "img/9_of_spades.png",
             "img/7_of_spades.png",
-            "img/jack_of_spades2.png"
+            "img/jack_of_spades2.png",
+            "img/10_of_clubs.png",
+            "img/5_of_clubs.png",
+            "img/10_of_clubs.png",
+            "img/5_of_clubs.png"
         ],
         "nr_reds": 26,
         "nr_total": 52,
-        "AI_reds": 14,
-        "AI_total": 32,
+        "AI_reds": 16,
+        "AI_total": 36,
         "AI_conf": 47
     },
     {
@@ -254,21 +254,11 @@
         "batch": "attention",
         "stimulus": [
             [
-                "img/8_of_clubs.png",
-                "img/9_of_clubs.png",
-                "img/2_of_clubs.png",
-                "img/5_of_spades.png",
-                "img/7_of_clubs.png",
-                "img/3_of_spades.png",
-                "img/4_of_clubs.png",
-                "img/queen_of_clubs2.png",
                 "img/jack_of_spades2.png",
                 "img/10_of_spades.png",
                 "img/10_of_spades.png",
                 "img/8_of_spades.png",
-                "img/ace_of_clubs.png"
-            ],
-            [
+                "img/ace_of_clubs.png",
                 "img/3_of_spades.png",
                 "img/10_of_spades.png",
                 "img/10_of_spades.png",
@@ -276,14 +266,14 @@
                 "img/9_of_spades.png",
                 "img/ace_of_spades2.png",
                 "img/2_of_spades.png",
-                "img/6_of_clubs.png",
+                "img/6_of_clubs.png"
+            ],
+            [
                 "img/10_of_spades.png",
                 "img/queen_of_clubs2.png",
                 "img/7_of_clubs.png",
                 "img/4_of_clubs.png",
-                "img/10_of_clubs.png"
-            ],
-            [
+                "img/10_of_clubs.png",
                 "img/10_of_clubs.png",
                 "img/queen_of_spades2.png",
                 "img/7_of_clubs.png",
@@ -291,14 +281,14 @@
                 "img/2_of_clubs.png",
                 "img/7_of_clubs.png",
                 "img/3_of_spades.png",
-                "img/4_of_spades.png",
+                "img/4_of_spades.png"
+            ],
+            [
                 "img/10_of_clubs.png",
                 "img/5_of_clubs.png",
                 "img/6_of_clubs.png",
                 "img/4_of_clubs.png",
-                "img/queen_of_clubs2.png"
-            ],
-            [
+                "img/queen_of_clubs2.png",
                 "img/8_of_spades.png",
                 "img/9_of_spades.png",
                 "img/king_of_spades2.png",
@@ -306,23 +296,25 @@
                 "img/3_of_spades.png",
                 "img/3_of_spades.png",
                 "img/king_of_spades2.png",
-                "img/8_of_clubs.png",
+                "img/8_of_clubs.png"
+            ],
+            [
                 "img/queen_of_spades2.png",
                 "img/king_of_clubs2.png",
                 "img/king_of_clubs2.png",
                 "img/queen_of_spades2.png",
-                "img/6_of_spades.png"
+                "img/6_of_spades.png",
+                "img/7_of_clubs.png",
+                "img/10_of_spades.png",
+                "img/2_of_clubs.png",
+                "img/king_of_clubs2.png",
+                "img/6_of_clubs.png",
+                "img/king_of_clubs2.png",
+                "img/9_of_clubs.png",
+                "img/king_of_clubs2.png"
             ]
         ],
         "cards": [
-            "img/8_of_clubs.png",
-            "img/9_of_clubs.png",
-            "img/2_of_clubs.png",
-            "img/5_of_spades.png",
-            "img/7_of_clubs.png",
-            "img/3_of_spades.png",
-            "img/4_of_clubs.png",
-            "img/queen_of_clubs2.png",
             "img/jack_of_spades2.png",
             "img/10_of_spades.png",
             "img/10_of_spades.png",
@@ -366,12 +358,20 @@
             "img/king_of_clubs2.png",
             "img/king_of_clubs2.png",
             "img/queen_of_spades2.png",
-            "img/6_of_spades.png"
+            "img/6_of_spades.png",
+            "img/7_of_clubs.png",
+            "img/10_of_spades.png",
+            "img/2_of_clubs.png",
+            "img/king_of_clubs2.png",
+            "img/6_of_clubs.png",
+            "img/king_of_clubs2.png",
+            "img/9_of_clubs.png",
+            "img/king_of_clubs2.png"
         ],
         "nr_reds": 0,
         "nr_total": 52,
         "AI_reds": 0,
-        "AI_total": 32,
-        "AI_conf": 28
+        "AI_total": 36,
+        "AI_conf": 24
     }
 ]

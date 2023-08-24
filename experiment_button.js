@@ -26,6 +26,31 @@ var stimuli = {};
 var attention_tests = {};
 
 /* function to draw card from game pile */
+// function randomDrawn(game_pile, decision){
+//     var card = jsPsych.randomization.sampleWithoutReplacement(game_pile, 1)[0];
+//     var earned = 0
+//     if (["hearts","diamonds"].some(v => card.includes(v))) {
+//         earned = 1 ;
+//     }else if (["clubs","spades"].some(v => card.includes(v))){
+//         earned = -1 ;
+//     }
+//     if (decision ==1 && earned ==1) {
+//         points += earned
+//         return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
+//         +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} point(s).<br><br></p>`;
+//     } else if (decision==1 && earned == -1){
+//         points += earned
+//         return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
+//         + `<p><br>You <span class=\"orange\">LOST</span> 1 point!<br><br>You have now ${points} point(s).<br><br></p>`;
+//     } else if (earned ==1){
+//         return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
+//         +`<p><br><span class=\"orange\">If you had played</span>, you would have WON 1 point!<br><br>You still have currently ${points} point(s).<br><br></p>`; 
+//     }
+//     return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
+//     +`<p><br><span class=\"orange\">If you had played</span>, you would have LOST 1 point!<br><br>You still have currently ${points} point(s).<br><br></p>`; 
+// }
+
+/* function to draw card from game pile */
 function randomDrawn(game_pile, decision){
     var card = jsPsych.randomization.sampleWithoutReplacement(game_pile, 1)[0];
     var earned = 0
@@ -35,19 +60,16 @@ function randomDrawn(game_pile, decision){
         earned = -1 ;
     }
     if (decision ==1 && earned ==1) {
-        points += earned
+        points += 1
         return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
         +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} point(s).<br><br></p>`;
-    } else if (decision==1 && earned == -1){
-        points += earned
+    } else if (decision==0 && earned == -1){
+        points += 1
         return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-        + `<p><br>You <span class=\"orange\">LOST</span> 1 point!<br><br>You have now ${points} point(s).<br><br></p>`;
-    } else if (earned ==1){
-        return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-        +`<p><br><span class=\"orange\">If you had played</span>, you would have WON 1 point!<br><br>You still have currently ${points} point(s).<br><br></p>`; 
-    }
+        +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} point(s).<br><br></p>`;
+    } 
     return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-    +`<p><br><span class=\"orange\">If you had played</span>, you would have LOST 1 point!<br><br>You still have currently ${points} point(s).<br><br></p>`; 
+    +`<p><br>You won 0 points!<br><br>You have still ${points} point(s).<br><br></p>`; 
 } 
 
 /* create timeline */
@@ -122,10 +144,26 @@ var game_pile_intro = {
     },
 };
 
+// var human_conf_intro = {
+//     type: jsPsychHtmlButtonResponse,
+//     stimulus: instructions.game_intro.human_conf,
+//     choices: ['very low','low', 'mid', 'high', 'very high'],
+//     data: {
+//         task: 'human_conf_intro',
+//         stimulus_id: grid_intro.id
+//     },
+//     on_finish: function(data){
+//         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
+//     }
+// };
 var human_conf_intro = {
-    type: jsPsychHtmlButtonResponse,
+    type: jsPsychHtmlSliderResponse,
     stimulus: instructions.game_intro.human_conf,
-    choices: ['very low','low', 'mid', 'high', 'very high'],
+    labels: ['very low','low', 'mid', 'high', 'very high'],
+    min: 0,
+    max: 4,
+    slider_start: 2,
+    button_label: 'Next >',
     data: {
         task: 'human_conf_intro',
         stimulus_id: grid_intro.id
@@ -184,10 +222,28 @@ var game_pile_AI_intro = {
     },
 };
 
+// var human_AI_conf_intro ={
+//     type: jsPsychHtmlButtonResponse,
+//     stimulus: instructions.AI_intro.AI_conf +`<p><br> <span class=\"blue\">${grid_AI_intro.AI_conf}%</span><br><br></p>` + instructions.AI_intro.human_AI_conf,
+//     choices: ['very low','low', 'mid', 'high', 'very high'],
+//     data: {
+//         task: 'human_AI_conf_intro',
+//         stimulus_id: grid_AI_intro.id,
+//         Ai_conf: grid_AI_intro.AI_conf,
+//     },
+//     on_finish: function(data){
+//         data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
+//     }
+// };
+
 var human_AI_conf_intro ={
-    type: jsPsychHtmlButtonResponse,
+    type: jsPsychHtmlSliderResponse,
     stimulus: instructions.AI_intro.AI_conf +`<p><br> <span class=\"blue\">${grid_AI_intro.AI_conf}%</span><br><br></p>` + instructions.AI_intro.human_AI_conf,
-    choices: ['very low','low', 'mid', 'high', 'very high'],
+    labels: ['very low','low', 'mid', 'high', 'very high'],
+    min: 0,
+    max: 4,
+    slider_start: 2,
+    button_label: 'Next >',
     data: {
         task: 'human_AI_conf_intro',
         stimulus_id: grid_AI_intro.id,
@@ -248,17 +304,35 @@ var game_pile = {
     }
 };
 
-var human_conf= {
-    type: jsPsychHtmlButtonResponse,
+// var human_conf= {
+//     type: jsPsychHtmlButtonResponse,
+//     stimulus: instructions.game_play.human_conf,
+//     choices: ['very low','low', 'mid', 'high', 'very high'],
+//     data: {
+//         task: 'human_conf',
+//         stimulus_id: jsPsych.timelineVariable('id'),
+//         true_prob: function(data){ return Math.round(jsPsych.timelineVariable('nr_reds')/jsPsych.timelineVariable('nr_total') *100);}
+//     },
+//     on_finish: function(data){
+//         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
+//     }
+// };
+
+var human_conf ={
+    type: jsPsychHtmlSliderResponse,
     stimulus: instructions.game_play.human_conf,
-    choices: ['very low','low', 'mid', 'high', 'very high'],
+    labels: ['very low','low', 'mid', 'high', 'very high'],
+    min: 0,
+    max: 4,
+    slider_start: 2,
+    button_label: 'Next >',
     data: {
         task: 'human_conf',
         stimulus_id: jsPsych.timelineVariable('id'),
         true_prob: function(data){ return Math.round(jsPsych.timelineVariable('nr_reds')/jsPsych.timelineVariable('nr_total') *100);}
     },
     on_finish: function(data){
-        data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
+        data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
     }
 };
 
@@ -297,12 +371,32 @@ var outcome = {
 
 /* Game Play AI */
 
-var human_AI_conf = {
-    type: jsPsychHtmlButtonResponse,
+// var human_AI_conf = {
+//     type: jsPsychHtmlButtonResponse,
+//     stimulus: function(){
+//         return instructions.game_play_AI.AI_conf +`<p><br> <span class=\"blue\">${jsPsych.timelineVariable('AI_conf')}%</span><br><br></p>` + instructions.game_play_AI.human_AI_conf;
+//     },
+//     choices: ['very low','low', 'mid', 'high', 'very high'],
+//     data: {
+//         task: 'human_AI_conf',
+//         stimulus_id: jsPsych.timelineVariable('id'),
+//         Ai_conf: jsPsych.timelineVariable('AI_conf')
+//     },
+//     on_finish: function(data){
+//         data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
+//     }
+// };
+
+var human_AI_conf = { 
+    type: jsPsychHtmlSliderResponse,
     stimulus: function(){
         return instructions.game_play_AI.AI_conf +`<p><br> <span class=\"blue\">${jsPsych.timelineVariable('AI_conf')}%</span><br><br></p>` + instructions.game_play_AI.human_AI_conf;
     },
-    choices: ['very low','low', 'mid', 'high', 'very high'],
+    labels: ['very low','low', 'mid', 'high', 'very high'],
+    min: 0,
+    max: 4,
+    slider_start: 2,
+    button_label: 'Next >',
     data: {
         task: 'human_AI_conf',
         stimulus_id: jsPsych.timelineVariable('id'),

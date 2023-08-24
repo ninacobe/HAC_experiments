@@ -9,7 +9,7 @@ np.random.seed(42)
 total_count = 104
 total_red_count = 52
 nr_total = 52
-ai_total = 32
+ai_total = 36
 shape = (4,13)
 
 def get_AI_conf(ai_reds):
