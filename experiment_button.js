@@ -4,7 +4,7 @@ var jsPsych = initJsPsych({
     auto_update_progress_bar: false,
     on_finish: function() {
         jsPsych.data.displayData();
-        jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
+        // jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
     }
 });
 

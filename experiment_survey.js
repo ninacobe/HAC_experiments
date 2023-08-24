@@ -3,7 +3,7 @@ var jsPsych = initJsPsych({
     show_progress_bar: true,
     on_finish: function() {
         jsPsych.data.displayData();
-        jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
+        // jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
     }
 });
 
