@@ -19,6 +19,7 @@ var points = 0;
 var image_size = [80,120]
 var nr_trials = 6
 var overall_trials =  5 * (2*nr_trials+1)+ 4 * (2*nr_trials+1)+ 11 + 5
+var played_rounds = 0
 
 var instructions = {};
 var cards = {};
@@ -53,7 +54,8 @@ var attention_tests = {};
 /* function to draw card from game pile */
 function randomDrawn(game_pile, decision){
     var card = jsPsych.randomization.sampleWithoutReplacement(game_pile, 1)[0];
-    var earned = 0
+    var earned = 0;
+    played_rounds +=1
     if (["hearts","diamonds"].some(v => card.includes(v))) {
         earned = 1 ;
     }else if (["clubs","spades"].some(v => card.includes(v))){
@@ -62,14 +64,14 @@ function randomDrawn(game_pile, decision){
     if (decision ==1 && earned ==1) {
         points += 1
         return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-        +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} point(s).<br><br></p>`;
+        +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`;
     } else if (decision==0 && earned == -1){
         points += 1
         return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-        +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} point(s).<br><br></p>`;
+        +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`;
     } 
     return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-    +`<p><br>You won 0 points!<br><br>You have still ${points} point(s).<br><br></p>`; 
+    +`<p><br>You won 0 points!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`; 
 } 
 
 /* create timeline */
@@ -466,7 +468,7 @@ timeline.push(game_intro, game_play, attention_test_trial, game_play);
 
 var intermission_block = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: function(){ return `<p>You have <span class=\"orange\"> earned ${points} point(s) </span> until now.<br><br></p>`;
+    stimulus: function(){ return `<p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points </span>.<br><br></p>`;
     },
     choices: ["Next >"],
     data: {
@@ -483,7 +485,7 @@ timeline.push(AI_intro, game_play_AI, attention_test_trial_AI, game_play_AI);
 var debrief_block = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function(){
-        return `<p>You have <span class=\"orange\"> earned ${points} point(s) </span> in total.</p>
+        return `<p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points </span>.</p>
         <p>Thank you for participating in this experiment!<br><br></p>`;
     },
     choices: ["Finish >"],

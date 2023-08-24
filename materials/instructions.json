@@ -8,7 +8,7 @@
         "decision": "<p>You <span class=\"orange\">win 1 point</span> in this round if you chose to <span class=\"orange\">play</span> and the card drawn from the game pile is <span class=\"red\">red</span>. <br> <br> You <span class=\"orange\">win 1 point</span> in this round if you chose to <span class=\"orange\">not play</span> and the card drawn from the game pile is <span class=\"black\"> black </span>.<br><br> You win no points if you chose to not play and the card is red or you chose to play and the card is black. <br><br> Would you like to play with this round's pile?<br><br></p>"
         },
     "AI_intro":{
-        "intro": "<p>From this round onwards, we provide you with a model to help you play!<br><br> The model is given 32 random cards from the 52 cards in the game pile.<br>It computes the exact probability of drawing a red card from the game pile given these cards.<br><br> <span class=\"orange\">Be aware that the model sees less cards from the game pile than you do!</span><br><br> </p>",
+        "intro": "<p>From this round onwards, we provide you with a model to help you play!<br><br> The model is given 36 random cards from the 52 cards in the game pile.<br>It computes the exact probability of drawing a red card from the game pile given these cards.<br><br> <span class=\"orange\">Be aware that the model sees less cards from the game pile than you do!</span><br><br> </p>",
         "AI_conf": "<p>Model’s confidence that a red card will be drawn from the game pile: </p>",
         "human_AI_conf": "<p> What is your confidence that a red card will be drawn now: <br><br></p>",
         "decision": "<p>Would you like to play?<br><br></p>"
