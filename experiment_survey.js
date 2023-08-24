@@ -16,7 +16,7 @@ const EXPERIMENT_FILES = {
 
   var points = 0;
   var image_size = [80,120]
-  var nr_trials = 1
+  var nr_trials = 6
   var overall_trials =  4 * (2*nr_trials+1)+ 4 * (2*nr_trials+1)+ 10 + 5
 
 var instructions = {};
