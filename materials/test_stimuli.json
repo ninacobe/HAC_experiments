@@ -1,0 +1,32 @@
+[
+    {   "id": 0,
+        "stimulus": [
+            ["img/2_of_clubs.png", "img/4_of_hearts.png", "img/ace_of_spades.png"],
+            ["img/ace_of_clubs.png", "img/4_of_diamonds.png", "img/10_of_clubs.png"],
+            ["img/queen_of_diamonds2.png", "img/6_of_hearts.png", "img/jack_of_spades2.png"]
+        ],
+        "cards": ["img/2_of_clubs.png", "img/4_of_hearts.png", "img/ace_of_spades.png",
+                    "img/ace_of_clubs.png", "img/4_of_diamonds.png", "img/10_of_clubs.png",
+                    "img/queen_of_diamonds2.png", "img/6_of_hearts.png", "img/jack_of_spades2.png"],
+        "nr_reds": 4,
+        "nr_total": 9,
+        "AI_conf": 0.63,
+        "AI_reds": 3,
+        "AI_total": 6
+    },
+    {   "id": 1,
+        "stimulus": [
+            ["img/4_of_clubs.png", "img/9_of_hearts.png", "img/ace_of_spades.png"],
+            ["img/10_of_clubs.png", "img/5_of_diamonds.png", "img/queen_of_clubs2.png"],
+            ["img/jack_of_diamonds2.png", "img/2_of_hearts.png", "img/ace_of_spades.png"]
+        ],
+        "cards": ["img/4_of_clubs.png", "img/9_of_hearts.png", "img/ace_of_spades.png",
+                    "img/10_of_clubs.png", "img/5_of_diamonds.png", "img/queen_of_clubs2.png",
+                    "img/jack_of_diamonds2.png", "img/2_of_hearts.png", "img/ace_of_spades.png"],
+        "nr_reds": 4,
+        "nr_total": 9,
+        "AI_conf": 0.40,
+        "AI_reds": 1,
+        "AI_total": 6
+    }
+]

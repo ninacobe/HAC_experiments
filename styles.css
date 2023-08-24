@@ -1,0 +1,70 @@
+input,
+textarea,
+select {
+  border-radius: 0.25rem;
+  border-width: 1px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+input,
+select {
+  height: 2.5rem;
+}
+.jspsych-display-element {
+  color: #6e7072; 
+ } 
+.red {
+    color: #ff0000;
+    font-weight: bold;
+  }
+.black { /* OK, a bit contrived... */
+    color: #000000;
+    font-weight: bold;
+}
+.orange { /* OK, a bit contrived... */
+    color: #ff712c;
+    font-weight: bold;
+}
+.blue { /* OK, a bit contrived... */
+    color: #008575;
+    font-weight: bold;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .button {
+    background-color: #919191;
+    color: white;
+    border: none;
+    font-size: 15px;
+    border-radius: 2px;
+    padding: 5px 29px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: left;
+    float: right;
+  }
+  
+.button:hover {
+    background-color: #6b6b6b;
+}
+
+.jspsych-btn {
+  background-color: #919191;
+  color: white;
+  border: none;
+  font-size: 15px;
+  border-radius: 2px;
+  padding: 5px 29px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: left;
+}
+
+.jspsych-btn:hover {
+  background-color: #6b6b6b;
+}

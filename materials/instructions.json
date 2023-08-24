@@ -1,0 +1,26 @@
+{
+    "welcome": ["<p>Welcome to the experiment. <br><br> Please, make sure you are accessing this on a desktop or laptop. <br> We cannot guarantee correct display of the experiment on phones and tablets.<br></p>", 
+        "In this experiment, we evaluate how participants perform in a game of cards without and with a model's help.<br> At the top of the screen you will find a progress bar, telling you how far you are in the experiment. <br> In the first phase of the experiment, you will play the game without the model's help. <br> In the second phase, we will show you the model's advice in each round of the game. You are free to follow it or not. <br> The points gained in the game translate into a monetary bonus. <br><br> Please, do not cheat in any kind of way! <br><br> Click next to begin.<br>"],
+    "game_intro":{
+        "intro": "<p>Let’s play a card game! <br><br> The deck has 104 cards with equal amounts of <span class=\"red\"> red </span> and <span class=\"black\"> black </span> cards. <br> In each round, you will see a pile of 52 cards from the deck for a short amount of time. <br> Pay attention if there are more <span class=\"red\"> red </span> or <span class=\"black\"> black </span> cards in the game pile.<br><br></p>",
+        "game_pile": "<p>This Round’s Game Pile:<br></p>",
+        "human_conf": "<p>A random card will be drawn from this round’s game pile. <br> State your confidence that a red card will be drawn:<br><br></p>",
+        "decision": "<p>You <span class=\"orange\">win 1 point</span> in this round if the card drawn from the game pile is <span class=\"red\"> red </span>. <br> <br> You <span class=\"orange\">lose 1 point</span> in this round if the card drawn from the game pile is <span class=\"black\"> black </span>.<br><br> If you decide not to play no points are awarded or deducted in this round. <br><br> Would you like to play with this round's pile?<br><br></p>"
+        },
+    "AI_intro":{
+        "intro": "<p>From this round onwards, we provide you with a model to help you play!<br><br> The model is given 32 random cards from the 52 cards in the game pile.<br>It computes the exact probability of drawing a red card from the game pile given these cards.<br><br> <span class=\"orange\">Be aware that the model sees less cards from the game pile than you do!</span><br><br> </p>",
+        "AI_conf": "<p>Model’s confidence that a red card will be drawn from the game pile: </p>",
+        "human_AI_conf": "<p> What is your confidence that a red card will be drawn now: <br><br></p>",
+        "decision": "<p>Would you like to play?<br><br></p>"
+    },
+    "game_play": {
+        "game_pile": "<p>This Round’s Game Pile:<br></p>",
+        "human_conf": "<p>A random card will be drawn from this round’s game pile. <br> State your confidence that a red card will be drawn:<br><br></p>",
+        "decision": "<p>Would you like to play?<br><br></p>"
+    },
+    "game_play_AI":{
+        "AI_conf": "<p>Model’s confidence that a red card will be drawn from the game pile: </p>",
+        "human_AI_conf": "<p> What is your confidence that a red card will be drawn now: <br><br> </p>",
+        "decision": "<p>Would you like to play?<br><br></p>"
+    }
+}
