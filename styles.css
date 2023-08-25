@@ -14,7 +14,7 @@ select {
   color: #6e7072; 
  } 
 .red {
-    color: #ff0000;
+    color: #ee4a4a;
     font-weight: bold;
   }
 .black { /* OK, a bit contrived... */
@@ -22,7 +22,7 @@ select {
     font-weight: bold;
 }
 .orange { /* OK, a bit contrived... */
-    color: #ff712c;
+    /* color: #ff712c; */
     font-weight: bold;
 }
 .blue { /* OK, a bit contrived... */
@@ -36,8 +36,8 @@ select {
     width: 50%;
   }
 
-  .button {
-    background-color: #919191;
+.red-btn {
+    background-color: #ee4a4a;
     color: white;
     border: none;
     font-size: 15px;
@@ -47,10 +47,26 @@ select {
     font-weight: bold;
     text-align: left;
     float: right;
-  }
+}
   
-.button:hover {
-    background-color: #6b6b6b;
+.red-btn:hover {
+  background-color: #bd3838;
+}
+.black-btn {
+  background-color: #434343;
+  color: white;
+  border: none;
+  font-size: 15px;
+  border-radius: 2px;
+  padding: 5px 29px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: left;
+  float: right;
+}
+
+.black-btn:hover {
+  background-color: #171717;
 }
 
 .jspsych-btn {

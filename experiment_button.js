@@ -17,8 +17,9 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 var image_size = [80,120]
-var nr_trials = 6
-var overall_trials =  5 * (2*nr_trials+1)+ 4 * (2*nr_trials+1)+ 11 + 5
+var nr_trials = 4
+var nr_trials_AI = 8
+var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5
 var played_rounds = 0
 
 var instructions = {};
@@ -54,24 +55,24 @@ var attention_tests = {};
 /* function to draw card from game pile */
 function randomDrawn(game_pile, decision){
     var card = jsPsych.randomization.sampleWithoutReplacement(game_pile, 1)[0];
-    var earned = 0;
+    var card_color = NaN
     played_rounds +=1
     if (["hearts","diamonds"].some(v => card.includes(v))) {
-        earned = 1 ;
+        card_color = 1 ;
     }else if (["clubs","spades"].some(v => card.includes(v))){
-        earned = -1 ;
+        card_color = 0 ;
     }
-    if (decision ==1 && earned ==1) {
+    var return_string = `<p>You bet on <span class=\"black\">Black</span>. <br> <br> Card Drawn:<br><br></p>`+`<img src=${card} width="130" height="100" class="center"></img>`
+
+    if(card_color==1){
+        return_string = `<p>You bet on <span class=\"red\">Red</span>. <br> <br> Card Drawn:<br><br></p>` + `<img src=${card} width="130" height="100" class="center"></img>`
+    }
+ 
+    if (decision == card_color) {
         points += 1
-        return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-        +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`;
-    } else if (decision==0 && earned == -1){
-        points += 1
-        return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-        +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`;
+        return return_string +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`;
     } 
-    return "<p>Card Drawn:<br><br></p>"+`<img src=${card} width="130" height="100" class="center"></img>`
-    +`<p><br>You won 0 points!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`; 
+    return return_string +`<p><br>You won 0 points!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`; 
 } 
 
 /* create timeline */
@@ -116,10 +117,10 @@ var enter_fullscreen = {
     }
   }
 timeline.push(enter_fullscreen)
-/* display introduction to experiment, i.e., game play */
 
-/* Game Intro */
+/* Definition of page*/
 var grid_intro = attention_tests[0]
+var grid_AI_intro = attention_tests[1]; 
 
 var intro = {
     type: jsPsychHtmlButtonResponse,
@@ -136,7 +137,7 @@ var intro = {
 var game_pile_intro = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function(){
-        return instructions.game_intro.game_pile+jsPsychVslGridScene.generate_stimulus(grid_intro.stimulus, image_size)+"<p><br><br></p>"},
+        return jsPsychVslGridScene.generate_stimulus(grid_intro.stimulus, image_size)},
     stimulus_duration: 1500,
     trial_duration: 1800,
     save_trial_parameters: {stimulus_duration: true},
@@ -146,18 +147,34 @@ var game_pile_intro = {
     },
 };
 
-// var human_conf_intro = {
-//     type: jsPsychHtmlButtonResponse,
-//     stimulus: instructions.game_intro.human_conf,
-//     choices: ['very low','low', 'mid', 'high', 'very high'],
-//     data: {
-//         task: 'human_conf_intro',
-//         stimulus_id: grid_intro.id
-//     },
-//     on_finish: function(data){
-//         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
-//     }
-// };
+var game_pile_AI_intro = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+        return jsPsychVslGridScene.generate_stimulus(grid_AI_intro.stimulus, image_size)},
+    stimulus_duration: 1500,
+    trial_duration: 1800,
+    save_trial_parameters: {stimulus_duration: true},
+    choices: [],
+    data: {
+        task: 'stimulus_AI_intro'
+    },
+};
+
+var game_pile = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+        return jsPsychVslGridScene.generate_stimulus(jsPsych.timelineVariable('stimulus'), image_size)},
+    stimulus_duration: function(){
+        return jsPsych.randomization.sampleWithoutReplacement([500, 750, 1000, 1250], 1)[0];
+    },
+    save_trial_parameters: {stimulus_duration: true},
+    trial_duration: 1300,
+    choices: [],
+    data: {
+        task: 'stimulus'
+    }
+};
+
 var human_conf_intro = {
     type: jsPsychHtmlSliderResponse,
     stimulus: instructions.game_intro.human_conf,
@@ -174,151 +191,6 @@ var human_conf_intro = {
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
     }
 };
-
-var decision_intro = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: instructions.game_intro.decision,
-    choices: ['No','Yes'],
-    data: {
-        task: 'decision_intro',
-        stimulus_id: grid_intro.id
-    },
-};
-
-var outcome_intro = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: function(){
-        var is_playing = jsPsych.data.getLastTrialData().select('response').values;
-        return randomDrawn(grid_intro.cards, is_playing);
-    },
-    choices: ['Next Round >'],
-    data: {
-        task: 'outcome_intro',
-        stimulus_id: grid_intro.id
-    },
-    on_finish: function(data){
-        var card = data.stimulus;
-            if (["hearts","diamonds"].some(v => card.includes(v))) {
-                data.outcome =  1 ;
-            }else if (["clubs","spades"].some(v => card.includes(v))){
-                data.outcome =  0 ;
-            }
-            jsPsych.setProgressBar(data.trial_index/overall_trials);
-    }
-};
-
-/* Game Intro with AI */
-
-var grid_AI_intro = attention_tests[1]; 
-
-var game_pile_AI_intro = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: function(){
-        return instructions.game_intro.game_pile+jsPsychVslGridScene.generate_stimulus(grid_AI_intro.stimulus, image_size)+"<p><br><br></p>"},
-    stimulus_duration: 1500,
-    trial_duration: 1800,
-    save_trial_parameters: {stimulus_duration: true},
-    choices: [],
-    data: {
-        task: 'stimulus_AI_intro'
-    },
-};
-
-// var human_AI_conf_intro ={
-//     type: jsPsychHtmlButtonResponse,
-//     stimulus: instructions.AI_intro.AI_conf +`<p><br> <span class=\"blue\">${grid_AI_intro.AI_conf}%</span><br><br></p>` + instructions.AI_intro.human_AI_conf,
-//     choices: ['very low','low', 'mid', 'high', 'very high'],
-//     data: {
-//         task: 'human_AI_conf_intro',
-//         stimulus_id: grid_AI_intro.id,
-//         Ai_conf: grid_AI_intro.AI_conf,
-//     },
-//     on_finish: function(data){
-//         data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
-//     }
-// };
-
-var human_AI_conf_intro ={
-    type: jsPsychHtmlSliderResponse,
-    stimulus: instructions.AI_intro.AI_conf +`<p><br> <span class=\"blue\">${grid_AI_intro.AI_conf}%</span><br><br></p>` + instructions.AI_intro.human_AI_conf,
-    labels: ['very low','low', 'mid', 'high', 'very high'],
-    min: 0,
-    max: 4,
-    slider_start: 2,
-    button_label: 'Next >',
-    data: {
-        task: 'human_AI_conf_intro',
-        stimulus_id: grid_AI_intro.id,
-        Ai_conf: grid_AI_intro.AI_conf,
-    },
-    on_finish: function(data){
-        data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
-    }
-};
-
-var decision_AI_intro = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: instructions.game_play.decision,
-    choices: ['No','Yes'],
-    data: {
-        task: 'decision',
-        stimulus_id: grid_AI_intro.id
-    },
-};
-
-var outcome_AI_intro = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: function(){
-        var is_playing = jsPsych.data.getLastTrialData().select('response').values;
-        return randomDrawn(grid_AI_intro.cards, is_playing);
-    },
-    choices: ['Next Round >'],
-    data: {
-        task: 'outcome_AI_intro',
-        stimulus_id: grid_AI_intro.id
-    },
-    on_finish: function(data){
-        var card = data.stimulus;
-            if (["hearts","diamonds"].some(v => card.includes(v))) {
-                data.outcome =  1 ;
-            }else if (["clubs","spades"].some(v => card.includes(v))){
-                data.outcome =  0 ;
-            }
-        jsPsych.setProgressBar(data.trial_index/overall_trials);
-    }
-};
-
-
-/* Game Play */
-
-var game_pile = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: function(){
-        return instructions.game_play.game_pile+jsPsychVslGridScene.generate_stimulus(jsPsych.timelineVariable('stimulus'), image_size)+"<p><br><br></p>"},
-    stimulus_duration: function(){
-        return jsPsych.randomization.sampleWithoutReplacement([500, 750, 1000, 1250], 1)[0];
-    },
-    save_trial_parameters: {stimulus_duration: true},
-    trial_duration: 1300,
-    choices: [],
-    data: {
-        task: 'stimulus'
-    }
-};
-
-// var human_conf= {
-//     type: jsPsychHtmlButtonResponse,
-//     stimulus: instructions.game_play.human_conf,
-//     choices: ['very low','low', 'mid', 'high', 'very high'],
-//     data: {
-//         task: 'human_conf',
-//         stimulus_id: jsPsych.timelineVariable('id'),
-//         true_prob: function(data){ return Math.round(jsPsych.timelineVariable('nr_reds')/jsPsych.timelineVariable('nr_total') *100);}
-//     },
-//     on_finish: function(data){
-//         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
-//     }
-// };
 
 var human_conf ={
     type: jsPsychHtmlSliderResponse,
@@ -338,56 +210,23 @@ var human_conf ={
     }
 };
 
-var decision = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: instructions.game_play.decision,
-    choices: ['No','Yes'],
+var human_AI_conf_intro ={
+    type: jsPsychHtmlSliderResponse,
+    stimulus: instructions.AI_intro.AI_conf +`<p><br> <span class=\"blue\">${grid_AI_intro.AI_conf}%</span><br><br></p>` + instructions.AI_intro.human_AI_conf,
+    labels: ['very low','low', 'mid', 'high', 'very high'],
+    min: 0,
+    max: 4,
+    slider_start: 2,
+    button_label: 'Next >',
     data: {
-        task: 'decision',
-        stimulus_id: jsPsych.timelineVariable('id')
-    },
-};
-
-var outcome = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: function(){
-        var is_playing = jsPsych.data.getLastTrialData().select('response').values;
-        return randomDrawn(jsPsych.timelineVariable('cards'), is_playing);
-    },
-    choices: ['Next Round >'],
-    data: {
-        task: 'outcome',
-        stimulus_id: jsPsych.timelineVariable('id')
+        task: 'human_AI_conf_intro',
+        stimulus_id: grid_AI_intro.id,
+        Ai_conf: grid_AI_intro.AI_conf,
     },
     on_finish: function(data){
-            jsPsych.setProgressBar(data.trial_index/overall_trials);
-            
-            var card = data.stimulus;
-            if (["hearts","diamonds"].some(v => card.includes(v))) {
-                data.outcome =  1 ;
-            }else if (["clubs","spades"].some(v => card.includes(v))){
-                data.outcome =  0 ;
-            }
+        data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
     }
 };
-
-/* Game Play AI */
-
-// var human_AI_conf = {
-//     type: jsPsychHtmlButtonResponse,
-//     stimulus: function(){
-//         return instructions.game_play_AI.AI_conf +`<p><br> <span class=\"blue\">${jsPsych.timelineVariable('AI_conf')}%</span><br><br></p>` + instructions.game_play_AI.human_AI_conf;
-//     },
-//     choices: ['very low','low', 'mid', 'high', 'very high'],
-//     data: {
-//         task: 'human_AI_conf',
-//         stimulus_id: jsPsych.timelineVariable('id'),
-//         Ai_conf: jsPsych.timelineVariable('AI_conf')
-//     },
-//     on_finish: function(data){
-//         data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
-//     }
-// };
 
 var human_AI_conf = { 
     type: jsPsychHtmlSliderResponse,
@@ -409,20 +248,123 @@ var human_AI_conf = {
     }
 };
 
-/* Timeline definitions*/
+var decision_intro = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: instructions.game_intro.decision,
+    choices: ['Black','Red'],
+    button_html: ['<button class="black-btn">%choice%</button>','<button class="red-btn">%choice%</button>'],
+    data: {
+        task: 'decision_intro',
+        stimulus_id: grid_intro.id
+    },
+    on_finish: function(data){
+        data.decision = ['Black','Red'].at(data.response);
+    }
+};
 
+var decision_AI_intro = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: instructions.game_play.decision,
+    choices: ['Black','Red'],
+    button_html: ['<button class="black-btn">%choice%</button>','<button class="red-btn">%choice%</button>'],
+    data: {
+        task: 'decision',
+        stimulus_id: grid_AI_intro.id
+    },
+    on_finish: function(data){
+        data.decision = ['Black','Red'].at(data.response);
+    }
+};
+
+var decision = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: instructions.game_play.decision,
+    choices: ['Black','Red'],
+    button_html: ['<button class="black-btn">%choice%</button>','<button class="red-btn">%choice%</button>'],
+    data: {
+        task: 'decision',
+        stimulus_id: jsPsych.timelineVariable('id')
+    },
+    on_finish: function(data){
+        data.decision = ['Black','Red'].at(data.response);
+    }
+};
+
+var outcome_intro = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+        var decision = jsPsych.data.getLastTrialData().select('response').values;
+        return randomDrawn(grid_intro.cards, decision);
+    },
+    choices: ['Next Round >'],
+    data: {
+        task: 'outcome_intro',
+        stimulus_id: grid_intro.id
+    },
+    on_finish: function(data){
+        var card = data.stimulus;
+            if (["hearts","diamonds"].some(v => card.includes(v))) {
+                data.outcome =  1 ;
+            }else if (["clubs","spades"].some(v => card.includes(v))){
+                data.outcome =  0 ;
+            }
+            jsPsych.setProgressBar(data.trial_index/overall_trials);
+    }
+};
+
+var outcome_AI_intro = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+        var decision = jsPsych.data.getLastTrialData().select('response').values;
+        return randomDrawn(grid_AI_intro.cards, decision);
+    },
+    choices: ['Next Round >'],
+    data: {
+        task: 'outcome_AI_intro',
+        stimulus_id: grid_AI_intro.id
+    },
+    on_finish: function(data){
+        var card = data.stimulus;
+            if (["hearts","diamonds"].some(v => card.includes(v))) {
+                data.outcome =  1 ;
+            }else if (["clubs","spades"].some(v => card.includes(v))){
+                data.outcome =  0 ;
+            }
+        jsPsych.setProgressBar(data.trial_index/overall_trials);
+    }
+};
+
+var outcome = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+        var decision = jsPsych.data.getLastTrialData().select('response').values;
+        return randomDrawn(jsPsych.timelineVariable('cards'), decision);
+    },
+    choices: ['Next Round >'],
+    data: {
+        task: 'outcome',
+        stimulus_id: jsPsych.timelineVariable('id')
+    },
+    on_finish: function(data){
+            jsPsych.setProgressBar(data.trial_index/overall_trials);
+            
+            var card = data.stimulus;
+            if (["hearts","diamonds"].some(v => card.includes(v))) {
+                data.outcome =  1 ;
+            }else if (["clubs","spades"].some(v => card.includes(v))){
+                data.outcome =  0 ;
+            }
+    }
+};
+
+/* Game Intro */
 var game_intro = {
     timeline: [intro, game_pile_intro, human_conf_intro, decision_intro, outcome_intro],
     timeline_variables: [instructions.game_intro],
     // randomize_order: true
 }
 
-var AI_intro = {
-    timeline: [ intro, game_pile_AI_intro, human_conf_intro, human_AI_conf_intro, decision_AI_intro, outcome_AI_intro],
-    timeline_variables: [instructions.AI_intro],
-    // randomize_order: true
-}
-
+/* Game Play */
 var game_play = {
     timeline: [game_pile, human_conf, decision, outcome],
     timeline_variables: stimuli,
@@ -433,12 +375,19 @@ var game_play = {
     // randomize_order: true
 }
 
+/* Game Intro with AI */
+var AI_intro = {
+    timeline: [ intro, game_pile_AI_intro, human_conf_intro, human_AI_conf_intro, decision_AI_intro, outcome_AI_intro],
+    timeline_variables: [instructions.AI_intro],
+    // randomize_order: true
+}
+/* Game Play AI */
 var game_play_AI = {
     timeline: [game_pile, human_conf, human_AI_conf, decision, outcome],
     timeline_variables: stimuli,
     sample: {
         type: 'without-replacement',
-        size: nr_trials
+        size: nr_trials_AI
     }
     // randomize_order: true
 }
@@ -454,6 +403,7 @@ var attention_test_trial = {
     // randomize_order: true
 }
 
+/* Attention test AI*/
 var attention_test_trial_AI = {
     timeline: [game_pile, human_conf, human_AI_conf, decision, outcome],
     timeline_variables: attention_tests,
