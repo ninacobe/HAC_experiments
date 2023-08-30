@@ -13,12 +13,16 @@ ai_total = 36
 shape = (4,13)
 
 def get_AI_conf(ai_reds):
-    ai_blacks = ai_total - ai_reds
-    total_black_count = total_red_count
-    remaining_pile_cards = nr_total - ai_total
-    non_ai_count = total_black_count + total_red_count - ai_total
-    prob_not_ai_cards = [math.comb(total_red_count - ai_reds, i)*math.comb(total_black_count - ai_blacks, remaining_pile_cards-i)/math.comb(non_ai_count,remaining_pile_cards)*i/remaining_pile_cards for i in np.arange(1,remaining_pile_cards+1, dtype=int)]
-    return  round((ai_reds/nr_total + (1-ai_total/nr_total) * sum(prob_not_ai_cards)) * 100)
+    return round(ai_reds/ai_total * 100)
+
+# def get_AI_conf(ai_reds):
+#     ai_blacks = ai_total - ai_reds
+#     total_black_count = total_red_count
+#     remaining_pile_cards = nr_total - ai_total
+#     non_ai_count = total_black_count + total_red_count - ai_total
+#     prob_not_ai_cards = [math.comb(total_red_count - ai_reds, i)*math.comb(total_black_count - ai_blacks, remaining_pile_cards-i)/math.comb(non_ai_count,remaining_pile_cards)*i/remaining_pile_cards for i in np.arange(1,remaining_pile_cards+1, dtype=int)]
+#     return  round((ai_reds/nr_total + (1-ai_total/nr_total) * sum(prob_not_ai_cards)) * 100)
+
 
 def create_stimulus(id, batch, nr_reds, reds, blacks, shuffle=TRUE):
     array_red = np.random.choice(reds, nr_reds) 
