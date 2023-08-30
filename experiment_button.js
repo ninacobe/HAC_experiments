@@ -183,6 +183,7 @@ var human_conf_intro = {
     max: 4,
     slider_start: 2,
     button_label: 'Next >',
+    require_movement: true,
     data: {
         task: 'human_conf_intro',
         stimulus_id: grid_intro.id
@@ -200,6 +201,7 @@ var human_conf ={
     max: 4,
     slider_start: 2,
     button_label: 'Next >',
+    require_movement: true,
     data: {
         task: 'human_conf',
         stimulus_id: jsPsych.timelineVariable('id'),
@@ -218,6 +220,7 @@ var human_AI_conf_intro ={
     max: 4,
     slider_start: 2,
     button_label: 'Next >',
+    require_movement: true,
     data: {
         task: 'human_AI_conf_intro',
         stimulus_id: grid_AI_intro.id,
@@ -238,6 +241,7 @@ var human_AI_conf = {
     max: 4,
     slider_start: 2,
     button_label: 'Next >',
+    require_movement: true,
     data: {
         task: 'human_AI_conf',
         stimulus_id: jsPsych.timelineVariable('id'),
