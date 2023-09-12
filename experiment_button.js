@@ -62,10 +62,10 @@ function randomDrawn(game_pile, decision){
     }else if (["clubs","spades"].some(v => card.includes(v))){
         card_color = 0 ;
     }
-    var return_string = `<p>You bet on <span class=\"black\">Black</span>. <br> <br> Card Drawn:<br><br></p>`+`<img src=${card} width="130" height="100" class="center"></img>`
+    var return_string = `<p>You bet on <span class=\"black\">Black</span>. <br> <br> Card Drawn:<br><br></p>`+`<img src=${card} width="130" height="100" class="center-small"></img>`
 
     if(decision==1){
-        return_string = `<p>You bet on <span class=\"red\">Red</span>. <br> <br> Card Drawn:<br><br></p>` + `<img src=${card} width="130" height="100" class="center"></img>`
+        return_string = `<p>You bet on <span class=\"red\">Red</span>. <br> <br> Card Drawn:<br><br></p>` + `<img src=${card} width="130" height="100" class="center-small"></img>`
     }
  
     if (decision == card_color) {
@@ -454,7 +454,7 @@ var intermission_block = {
 };
 timeline.push(intermission_block);
 
-timeline.push(AI_instructions, AI_intro, game_play_AI, attention_test_trial_AI, game_play_AI);
+timeline.push(ai_instructions, AI_intro, game_play_AI, attention_test_trial_AI, game_play_AI);
 
 var debrief_block = {
     type: jsPsychHtmlButtonResponse,
