@@ -73,11 +73,11 @@ def main():
 
     # Serializing json
     id_offset = 0
-    easy_red_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.75),round(nr_total * 1.0),250))]
+    easy_red_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.75),round(nr_total * 1.0),500))]
     id_offset = len(easy_red_stimulus)
-    easy_black_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.0),round(nr_total * 0.25),250))]
+    easy_black_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.0),round(nr_total * 0.25),500))]
     id_offset = len(easy_red_stimulus) + len(easy_black_stimulus)
-    hard_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.25),round(nr_total * 0.75),1000))]
+    hard_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.25),round(nr_total * 0.75),1500))]
     json_object = json.dumps(easy_red_stimulus+easy_black_stimulus+hard_stimulus, indent=4) 
     # hard_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.0),round(nr_total * 1.0),1000))]
     # json_object = json.dumps(hard_stimulus, indent=4) 

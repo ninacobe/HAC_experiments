@@ -33,8 +33,14 @@ select {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 70%;
   }
+.center-small {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
 
 .red-btn {
     background-color: #ee4a4a;

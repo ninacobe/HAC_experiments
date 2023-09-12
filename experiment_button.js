@@ -64,7 +64,7 @@ function randomDrawn(game_pile, decision){
     }
     var return_string = `<p>You bet on <span class=\"black\">Black</span>. <br> <br> Card Drawn:<br><br></p>`+`<img src=${card} width="130" height="100" class="center"></img>`
 
-    if(card_color==1){
+    if(decision==1){
         return_string = `<p>You bet on <span class=\"red\">Red</span>. <br> <br> Card Drawn:<br><br></p>` + `<img src=${card} width="130" height="100" class="center"></img>`
     }
  
@@ -98,7 +98,17 @@ await fetch(EXPERIMENT_FILES.STIMULI).then(response => response.json()).then( da
 /* get attention_tests from file */
 await fetch(EXPERIMENT_FILES.ATTENTION_TESTS).then(response => response.json()).then( data => attention_tests = data)
 
-/* display welcome messages */
+// timeline.push({
+//     type: jsPsychHtmlButtonResponse,
+//     stimulus: function(){
+//         return "<span class=\"center\">" +jsPsychVslGridScene.generate_stimulus(stimuli[401].stimulus, image_size) + "</span>"},
+//     choices: [],
+//     data: {
+//         task: 'stimulus_intro'
+//     },
+// });
+
+/* display instruction messages */
 timeline.push({
     type: jsPsychInstructions,
     pages: instructions.welcome, 
@@ -108,10 +118,20 @@ timeline.push({
     }
 });
 
+
+var ai_instructions = {
+    type: jsPsychInstructions,
+    pages: instructions.AI_instructions, 
+    show_clickable_nav: true,
+    on_finish: function(data){
+        jsPsych.setProgressBar(data.trial_index/overall_trials);
+    }
+};
+
 var enter_fullscreen = {
     type: jsPsychFullscreen,
     fullscreen_mode: true,
-    message: "<p>The experiment will switch to full screen mode when you press the button below.<br> Please do not exit full screen during the experiment.<br></p>",
+    message: "<p>The experiment will switch to full screen mode when you press the button below.<br> Please do not exit full screen during the experiment.<br><br></p>",
     on_finish: function(data){
         jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
@@ -381,7 +401,7 @@ var game_play = {
 
 /* Game Intro with AI */
 var AI_intro = {
-    timeline: [ intro, game_pile_AI_intro, human_conf_intro, human_AI_conf_intro, decision_AI_intro, outcome_AI_intro],
+    timeline: [ game_pile_AI_intro, human_conf_intro, human_AI_conf_intro, decision_AI_intro, outcome_AI_intro],
     timeline_variables: [instructions.AI_intro],
     // randomize_order: true
 }
@@ -434,7 +454,7 @@ var intermission_block = {
 };
 timeline.push(intermission_block);
 
-timeline.push(AI_intro, game_play_AI, attention_test_trial_AI, game_play_AI);
+timeline.push(AI_instructions, AI_intro, game_play_AI, attention_test_trial_AI, game_play_AI);
 
 var debrief_block = {
     type: jsPsychHtmlButtonResponse,
