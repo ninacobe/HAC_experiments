@@ -5,11 +5,11 @@ import pandas as pd
 import numpy as np
 import math
 
-np.random.seed(42)
+np.random.seed(420)
 total_count = 104
 total_red_count = 52
 nr_total = 52
-ai_total = 36
+ai_total = 10
 shape = (4,13)
 
 def get_AI_conf(ai_reds):
@@ -31,7 +31,7 @@ def create_stimulus(id, batch, nr_reds, reds, blacks, shuffle=TRUE):
     if shuffle==TRUE:
         np.random.shuffle(array)
     grid = array.reshape(shape)
-    ai_reds =  sum([ 1 for card in np.random.choice(array, ai_total) if any(substring in card for substring in ["hearts","diamonds"])])
+    ai_reds =  sum([ 1 for card in np.random.choice(array, ai_total, replace = False) if any(substring in card for substring in ["hearts","diamonds"])])
     # Data to be written
     stimulus = {
         "id":   id,
@@ -73,12 +73,14 @@ def main():
 
     # Serializing json
     id_offset = 0
-    easy_red_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.70),round(nr_total * 0.90),50))]
+    easy_red_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.75),round(nr_total * 1.0),250))]
     id_offset = len(easy_red_stimulus)
-    easy_black_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.10),round(nr_total * 0.30),50))]
+    easy_black_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.0),round(nr_total * 0.25),250))]
     id_offset = len(easy_red_stimulus) + len(easy_black_stimulus)
-    hard_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.30),round(nr_total * 0.70),150))]
+    hard_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.25),round(nr_total * 0.75),1000))]
     json_object = json.dumps(easy_red_stimulus+easy_black_stimulus+hard_stimulus, indent=4) 
+    # hard_stimulus = [create_stimulus(id_offset + id,"game", int(nr_reds), reds, blacks) for id, nr_reds in enumerate(np.random.randint(round(nr_total * 0.0),round(nr_total * 1.0),1000))]
+    # json_object = json.dumps(hard_stimulus, indent=4) 
 
     # Writing to sample.json
     with open("./materials/stimuli.json", "w") as outfile:
