@@ -26,15 +26,21 @@ def main():
     hard_total = len(stimuli) - easy_total
     win_prob_list = [ stimulus["nr_reds"]/stimulus["nr_total"] for stimulus in stimuli if stimulus["AI_conf"] >= 50]
     win_prob_list += [ 1-(stimulus["nr_reds"]/stimulus["nr_total"]) for stimulus in stimuli if stimulus["AI_conf"] < 50]
+    mwin_prob_list = [-(1- stimulus["nr_reds"]/stimulus["nr_total"]) for stimulus in stimuli if stimulus["AI_conf"] >= 50]
+    mwin_prob_list += [ -(stimulus["nr_reds"]/stimulus["nr_total"]) for stimulus in stimuli if stimulus["AI_conf"] < 50]
 
     win_prob_list_perf = [ stimulus["nr_reds"]/stimulus["nr_total"] for stimulus in stimuli if stimulus["nr_reds"]/stimulus["nr_total"] >= 0.5]
     win_prob_list_perf += [ 1-(stimulus["nr_reds"]/stimulus["nr_total"]) for stimulus in stimuli if stimulus["nr_reds"]/stimulus["nr_total"] < 0.5]
+    mwin_prob_list_perf = [ -(1-stimulus["nr_reds"]/stimulus["nr_total"]) for stimulus in stimuli if stimulus["nr_reds"]/stimulus["nr_total"] >= 0.5]
+    mwin_prob_list_perf += [ -((stimulus["nr_reds"]/stimulus["nr_total"])) for stimulus in stimuli if stimulus["nr_reds"]/stimulus["nr_total"] < 0.5]
 
-    print("Expected accuracy: ", sum(win_prob_list)/len( win_prob_list))
-    print("Expected accuracy perf: ", sum(win_prob_list_perf)/len( win_prob_list_perf))
+    print("Expected utility: ",(sum(win_prob_list))/len( win_prob_list))
+    print("Expected utility: ",( sum(win_prob_list) + sum(mwin_prob_list ))/len( win_prob_list))
+    print("Expected utility perf: ", (sum(win_prob_list_perf))/len( win_prob_list_perf))
+    print("Expected utility perf: ", (sum(win_prob_list_perf) + sum(mwin_prob_list_perf))/len( win_prob_list_perf))
     print("Easy stimuli: ", easy_total)
     print("Hard stimuli: ", hard_total)
-    print("Hard stimuli: ", hard)
+    # print("Hard stimuli: ", hard)
 
     true_prob = [ stimulus["nr_reds"]/stimulus["nr_total"] for stimulus in stimuli] 
     model_conf = [ stimulus["AI_conf"] for stimulus in stimuli]  
