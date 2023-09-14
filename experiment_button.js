@@ -17,8 +17,8 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 var image_size = [80,120]
-var nr_trials = 4
-var nr_trials_AI = 8
+var nr_trials = 1 //4
+var nr_trials_AI = 1 //8
 var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5
 var played_rounds = 0
 
@@ -62,10 +62,10 @@ function randomDrawn(game_pile, decision){
     }else if (["clubs","spades"].some(v => card.includes(v))){
         card_color = 0 ;
     }
-    var return_string = `<p>You bet on <span class=\"black\">Black</span>. <br> <br> Card Drawn:<br><br></p>`+`<img src=${card} width="130" height="100" class="center-small"></img>`
+    var return_string = `<p>You bet on <span class=\"black\">Black</span>. <br> <br> Card Drawn:<br><br></p>`+`<img src=${card}  class="center-small"></img>`
 
     if(decision==1){
-        return_string = `<p>You bet on <span class=\"red\">Red</span>. <br> <br> Card Drawn:<br><br></p>` + `<img src=${card} width="130" height="100" class="center-small"></img>`
+        return_string = `<p>You bet on <span class=\"red\">Red</span>. <br> <br> Card Drawn:<br><br></p>` + `<img src=${card}  class="center-small"></img>`
     }
  
     if (decision == card_color) {
@@ -459,8 +459,10 @@ timeline.push(ai_instructions, AI_intro, game_play_AI, attention_test_trial_AI, 
 var debrief_block = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function(){
-        return `<p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points </span>.</p>
-        <p>Thank you for participating in this experiment!<br><br></p>`;
+        return `<div class=\"content\"> <p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points </span>.</p>
+        <p>Thank you for participating in this experiment!<br><br></p> 
+     </div> <div class=\"bottom-link\"> <a href=\"https://imprint.mpi-klsb.mpg.de/sws/people.mpi-sws.org/hac-experiment\" class=\"my-link\">Imprint</a> / <a href=\"https://data-protection.mpi-klsb.mpg.de/sws/hac-experiment?lang=en\" class=\"my-link\">Data Protection</a> </div>  
+        `;
     },
     choices: ["Finish >"],
     data: {

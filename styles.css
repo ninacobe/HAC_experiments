@@ -90,3 +90,17 @@ select {
 .jspsych-btn:hover {
   background-color: #6b6b6b;
 }
+
+.bottom-link {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.my-link {
+  color: rgb(64, 162, 194);
+}
