@@ -142,11 +142,11 @@ timeline.push(enter_fullscreen)
 var size_check = {
     type: jsPsychBrowserCheck,
     inclusion_function: (data) => {
-        if (data.width/4 >= 350 && data.width/4 <800){
+        if (data.width/4 >= 350 && data.width/4 < 800){
             slider_size = (Math.round(data.width/4));
-        } else if (data.width/3 >= 350 && data.width/3 <800){
+        }else if (data.width/3 >= 350 && data.width/3 < 800){
             slider_size = (Math.round(data.width/3));
-	}
+        }
         image_size = (Math.round(data.width/21), Math.round(data.height/11));
         return true;
     }
