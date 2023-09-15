@@ -479,7 +479,7 @@ var debrief_block = {
     stimulus: function(){
         return `<div class=\"content\"> <p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points </span>.</p>
         <p>Thank you for participating in this experiment!<br><br></p> 
-     </div> <div class=\"bottom-link\"> <a href=\"https://imprint.mpi-klsb.mpg.de/sws/people.mpi-sws.org/hac-experiment\" class=\"my-link\">Imprint</a> | <a href=\"https://data-protection.mpi-klsb.mpg.de/sws/hac-experiment?lang=en\" class=\"my-link\">Data Protection</a> </div>  
+     </div> <div class=\"bottom-link\"> <a href=\"https://imprint.mpi-klsb.mpg.de/sws/hac-experiment.mpi-sws.org\" class=\"my-link\">Imprint</a> | <a href=\"https://data-protection.mpi-klsb.mpg.de/sws/hac-experiment.mpi-sws.org?lang=en\" class=\"my-link\">Data Protection</a> </div>  
         `;
     },
     choices: ["Finish >"],
