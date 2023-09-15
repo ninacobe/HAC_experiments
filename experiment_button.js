@@ -456,12 +456,30 @@ timeline.push(intermission_block);
 
 timeline.push(ai_instructions, AI_intro, game_play_AI, attention_test_trial_AI, game_play_AI);
 
+var save_data = {
+    type: jsPsychCallFunction,
+    async: true,
+    func: function(done){
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'write_data.php');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+        if(xhr.status == 200){
+          var response = JSON.parse(xhr.responseText);
+          console.log(response.success);
+        }
+        done(); // invoking done() causes experiment to progress to next trial.
+      };
+      xhr.send(jsPsych.data.get().json());
+    }
+}
+
 var debrief_block = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function(){
         return `<div class=\"content\"> <p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points </span>.</p>
         <p>Thank you for participating in this experiment!<br><br></p> 
-     </div> <div class=\"bottom-link\"> <a href=\"https://imprint.mpi-klsb.mpg.de/sws/people.mpi-sws.org/hac-experiment\" class=\"my-link\">Imprint</a> / <a href=\"https://data-protection.mpi-klsb.mpg.de/sws/hac-experiment?lang=en\" class=\"my-link\">Data Protection</a> </div>  
+     </div> <div class=\"bottom-link\"> <a href=\"https://imprint.mpi-klsb.mpg.de/sws/people.mpi-sws.org/hac-experiment\" class=\"my-link\">Imprint</a> | <a href=\"https://data-protection.mpi-klsb.mpg.de/sws/hac-experiment?lang=en\" class=\"my-link\">Data Protection</a> </div>  
         `;
     },
     choices: ["Finish >"],
@@ -472,6 +490,6 @@ var debrief_block = {
         jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
 };
-timeline.push(debrief_block);
+timeline.push(save_data, debrief_block);
 
 jsPsych.run(timeline);
