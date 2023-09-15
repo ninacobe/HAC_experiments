@@ -17,11 +17,11 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 var image_size = [80,120]
-var nr_trials = 4
-var nr_trials_AI = 8
+var nr_trials = 1 //4
+var nr_trials_AI = 1 //8
 var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5
 var played_rounds = 0
-var slider_size = 0
+var slider_size = 300
 
 var instructions = {};
 var cards = {};
@@ -142,7 +142,11 @@ timeline.push(enter_fullscreen)
 var size_check = {
     type: jsPsychBrowserCheck,
     inclusion_function: (data) => {
-        slider_size = (Math.round(data.width/4));
+        if (data.width/4 >= 300){
+            slider_size = (Math.round(data.width/4));
+        }else {
+            slider_size = (Math.round(data.width * 0.85));
+        }
         image_size = (Math.round(data.width/21), Math.round(data.height/11));
         return true;
     }
