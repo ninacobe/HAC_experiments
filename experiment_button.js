@@ -21,7 +21,7 @@ var nr_trials = 1 //4
 var nr_trials_AI = 1 //8
 var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5
 var played_rounds = 0
-var slider_size = 300
+var slider_size = 350
 
 var instructions = {};
 var cards = {};
@@ -142,10 +142,10 @@ timeline.push(enter_fullscreen)
 var size_check = {
     type: jsPsychBrowserCheck,
     inclusion_function: (data) => {
-        if (data.width/4 >= 300){
+        if (data.width/4 >= 350 && data.width/4 < 800){
             slider_size = (Math.round(data.width/4));
-        }else {
-            slider_size = (Math.round(data.width * 0.85));
+        }else if (data.width/3 >= 350 && data.width/3 < 800){
+            slider_size = (Math.round(data.width/3));
         }
         image_size = (Math.round(data.width/21), Math.round(data.height/11));
         return true;
