@@ -17,10 +17,11 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 var image_size = [80,120]
-var nr_trials = 1 //4
-var nr_trials_AI = 1 //8
+var nr_trials = 4
+var nr_trials_AI = 8
 var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5
 var played_rounds = 0
+var slider_size = 0
 
 var instructions = {};
 var cards = {};
@@ -138,6 +139,17 @@ var enter_fullscreen = {
   }
 timeline.push(enter_fullscreen)
 
+var size_check = {
+    type: jsPsychBrowserCheck,
+    inclusion_function: (data) => {
+        slider_size = (Math.round(data.width/4));
+        image_size = (Math.round(data.width/21), Math.round(data.height/11));
+        return true;
+    }
+};
+timeline.push(size_check)
+
+
 /* Definition of page*/
 var grid_intro = attention_tests[0]
 var grid_AI_intro = attention_tests[1]; 
@@ -157,7 +169,7 @@ var intro = {
 var game_pile_intro = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function(){
-        return jsPsychVslGridScene.generate_stimulus(grid_intro.stimulus, image_size)},
+        return  jsPsychVslGridScene.generate_stimulus(grid_intro.stimulus,image_size) },
     stimulus_duration: 1500,
     trial_duration: 1800,
     save_trial_parameters: {stimulus_duration: true},
@@ -167,10 +179,11 @@ var game_pile_intro = {
     },
 };
 
+
 var game_pile_AI_intro = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function(){
-        return jsPsychVslGridScene.generate_stimulus(grid_AI_intro.stimulus, image_size)},
+        return  jsPsychVslGridScene.generate_stimulus(grid_AI_intro.stimulus, image_size) },
     stimulus_duration: 1500,
     trial_duration: 1800,
     save_trial_parameters: {stimulus_duration: true},
@@ -202,6 +215,9 @@ var human_conf_intro = {
     min: 0,
     max: 4,
     slider_start: 2,
+    slider_width: function(){
+        return slider_size
+    },
     button_label: 'Next >',
     require_movement: true,
     data: {
@@ -220,6 +236,9 @@ var human_conf ={
     min: 0,
     max: 4,
     slider_start: 2,
+    slider_width: function(){
+        return slider_size
+    },
     button_label: 'Next >',
     require_movement: true,
     data: {
@@ -239,6 +258,9 @@ var human_AI_conf_intro ={
     min: 0,
     max: 4,
     slider_start: 2,
+    slider_width: function(){
+        return slider_size
+    },
     button_label: 'Next >',
     require_movement: true,
     data: {
@@ -260,6 +282,9 @@ var human_AI_conf = {
     min: 0,
     max: 4,
     slider_start: 2,
+    slider_width: function(){
+        return slider_size
+    },
     button_label: 'Next >',
     require_movement: true,
     data: {
