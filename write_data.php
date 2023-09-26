@@ -28,11 +28,15 @@ try {
     }
   }
   $sql .= ");";
+  //create unique id for participant
+  $id = uniqid("");
   $insertstmt = $conn->prepare($sql);
   for($i=0; $i < count($data_array); $i++){
     for($j = 0; $j < count($col_names); $j++){
       $colname = $col_names[$j];
-      if(!isset($data_array[$i][$colname])){
+      if ($colname == "participant_id"){
+        $insertstmt->bindValue(":$colname", $id); 
+      } else if(!isset($data_array[$i][$colname])){
         $insertstmt->bindValue(":$colname", null, PDO::PARAM_NULL);
       } else {
         $insertstmt->bindValue(":$colname", $data_array[$i][$colname]);

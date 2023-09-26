@@ -2,10 +2,10 @@
 var jsPsych = initJsPsych({
     show_progress_bar: true,
     auto_update_progress_bar: false,
-    on_finish: function() {
-        jsPsych.data.displayData();
-        // jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
-    }
+    //on_finish: function() {
+        //jsPsych.data.displayData();
+        //jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
+    //}
 });
 
 const EXPERIMENT_FILES = {  
@@ -520,5 +520,6 @@ var debrief_block = {
     }
 };
 timeline.push(save_data, debrief_block);
+//timeline.push(debrief_block);
 
 jsPsych.run(timeline);
