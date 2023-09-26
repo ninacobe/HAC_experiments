@@ -2,10 +2,10 @@
 var jsPsych = initJsPsych({
     show_progress_bar: true,
     auto_update_progress_bar: false,
-    //on_finish: function() {
-        //jsPsych.data.displayData();
-        //jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
-    //}
+    // on_finish: function() {
+    //     jsPsych.data.displayData();
+    //     jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
+    // }
 });
 
 const EXPERIMENT_FILES = {  
@@ -17,8 +17,8 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 var image_size = [80,120]
-var nr_trials = 1 //4
-var nr_trials_AI = 1 //8
+var nr_trials = 4
+var nr_trials_AI = 8
 var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5
 var played_rounds = 0
 var slider_size = 350
@@ -124,6 +124,9 @@ var ai_instructions = {
     type: jsPsychInstructions,
     pages: instructions.AI_instructions, 
     show_clickable_nav: true,
+    data: {
+        task: 'ai_intro'
+    },
     on_finish: function(data){
         jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
@@ -251,7 +254,7 @@ var human_conf ={
         true_prob: function(data){ return Math.round(jsPsych.timelineVariable('nr_reds')/jsPsych.timelineVariable('nr_total') *100);}
     },
     on_finish: function(data){
-        data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
+        data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
     }
 };
 
