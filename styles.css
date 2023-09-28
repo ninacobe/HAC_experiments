@@ -33,7 +33,7 @@ select {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 90%;
   }
 .center-small {
     display: block;
@@ -43,7 +43,7 @@ select {
 }
 .image-container {
   border: 1px solid #6e7072; /* Set the border style */
-  display: inline-block; /* Ensure the container wraps around the image */
+  display: inline-block;  /*Ensure the container wraps around the image */
 }
 
 .red-btn {
