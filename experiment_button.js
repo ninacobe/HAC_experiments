@@ -63,17 +63,17 @@ function randomDrawn(game_pile, decision){
     }else if (["clubs","spades"].some(v => card.includes(v))){
         card_color = 0 ;
     }
-    var return_string = `<p>You bet on <span class=\"black\">Black</span>. <br> <br> Card Drawn:<br><br></p>`+`<img src=${card}  class="center-small"></img>`
+    var return_string = `<p>You bet on <span class=\"black\">Black</span>. <br> <br> Card Picked:<br><br></p>`+`<img src=${card}  class="center-small"></img>`
 
     if(decision==1){
-        return_string = `<p>You bet on <span class=\"red\">Red</span>. <br> <br> Card Drawn:<br><br></p>` + `<img src=${card}  class="center-small"></img>`
+        return_string = `<p>You bet on <span class=\"red\">Red</span>. <br> <br> Card Picked:<br><br></p>` + `<img src=${card}  class="center-small"></img>`
     }
  
     if (decision == card_color) {
         points += 1
-        return return_string +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`;
+        return return_string +`<p><br>You <span class=\"orange\">WON</span> 1 point!<br><br>You have <span class=\"orange\"> earned ${points} point(s) from ${played_rounds} round(s) </span> until now.<br><br></p>`;
     } 
-    return return_string +`<p><br>You won 0 points!<br><br>You have now ${points} out of ${played_rounds} points.<br><br></p>`; 
+    return return_string +`<p><br>You won 0 points!<br><br>You have <span class=\"orange\"> earned ${points} point(s) from ${played_rounds} rounds </span> until now.<br><br></p>`; 
 } 
 
 /* create timeline */
@@ -474,7 +474,7 @@ timeline.push(game_intro, game_play, attention_test_trial, game_play);
 
 var intermission_block = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: function(){ return `<p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points </span>.<br><br></p>`;
+    stimulus: function(){ return `<p>You have <span class=\"orange\"> earned ${points} point(s) from ${played_rounds} rounds until now </span>.<br><br></p>`;
     },
     choices: ["Next >"],
     data: {
