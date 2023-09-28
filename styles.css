@@ -44,7 +44,6 @@ select {
 .image-container {
   border: 1px solid #6e7072; /* Set the border style */
   display: inline-block; /* Ensure the container wraps around the image */
-  padding: 5px; /* Optional: Add padding around the image */
 }
 
 .red-btn {
