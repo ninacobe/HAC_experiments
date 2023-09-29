@@ -474,7 +474,7 @@ timeline.push(game_intro, game_play, attention_test_trial, game_play);
 
 var intermission_block = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: function(){ return `<p>You have <span class=\"orange\"> earned ${points} point(s) from ${played_rounds} rounds until now </span>.<br><br></p>`;
+    stimulus: function(){ return `<p>You have <span class=\"orange\"> earned ${points} point(s) from ${played_rounds} rounds until now</span>.<br><br></p>`;
     },
     choices: ["Next >"],
     data: {
