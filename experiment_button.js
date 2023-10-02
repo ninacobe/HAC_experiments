@@ -17,8 +17,8 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 var image_size = [80,120]
-var nr_trials = 1//4
-var nr_trials_AI =1// 8
+var nr_trials = 5
+var nr_trials_AI = 7
 var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5 + 2
 var played_rounds = 0
 var slider_size = 350
@@ -566,9 +566,9 @@ var survey = {
     },
     on_finish: function(data){
         jsPsych.setProgressBar(data.trial_index/overall_trials);
-        var ranking = data.response.ranking;
+        var ranking = data.response.ranking_helpful;
         var statements = data.response.statements;
-        data.ranking =ranking;
+        data.ranking = ranking;
         data.statements = statements;
     }
   };
