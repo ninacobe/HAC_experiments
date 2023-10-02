@@ -19,7 +19,7 @@ var points = 0;
 var image_size = [80,120]
 var nr_trials = 4
 var nr_trials_AI = 8
-var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5
+var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5 + 2
 var played_rounds = 0
 var slider_size = 350
 
@@ -474,7 +474,7 @@ timeline.push(game_intro, game_play, attention_test_trial, game_play);
 
 var intermission_block = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: function(){ return `<p>You have <span class=\"orange\"> earned ${points} point(s) from ${played_rounds} rounds until now </span>.<br><br></p>`;
+    stimulus: function(){ return `<p>You have <span class=\"orange\"> earned ${points} point(s) from ${played_rounds} rounds until now</span>.<br><br></p>`;
     },
     choices: ["Next >"],
     data: {
@@ -509,12 +509,10 @@ var save_data = {
 var debrief_block = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function(){
-        return `<div class=\"content\"> <p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points </span>.</p>
-        <p>Thank you for participating in this experiment!<br><br></p> 
-     </div> <div class=\"bottom-link\"> <a href=\"https://imprint.mpi-klsb.mpg.de/sws/hac-experiment.mpi-sws.org\" class=\"my-link\">Imprint</a> | <a href=\"https://data-protection.mpi-klsb.mpg.de/sws/hac-experiment.mpi-sws.org?lang=en\" class=\"my-link\">Data Protection</a> </div>  
-        `;
+        return `<div class=\"content\"> <p>You have <span class=\"orange\"> earned ${points} out of ${played_rounds} points</span>. <br> <br></p>
+     </div> `;
     },
-    choices: ["Finish >"],
+    choices: ["Next >"],
     data: {
         task: 'debrief'
     },
@@ -522,7 +520,72 @@ var debrief_block = {
         jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
 };
-timeline.push(save_data, debrief_block);
+
+var survey = {
+    type: jsPsychSurvey,
+    pages: [
+      [{
+        type: 'html',
+        prompt: `Please answer the following questions about your thoughts on the model.`,
+        },
+        // {
+        //   type: 'likert',
+        //   prompt: instructions.survey[0],
+        //   name: "most_helpful",
+        //   likert_scale_values: [
+        //     {value: "very low"},
+        //     {value: "low"},
+        //     {value: "mid"},
+        //     {value: "high"},
+        //     {value: "very high"}
+        //   ],
+        //   required: true
+        // },
+        {
+            type: 'ranking',
+            prompt: instructions.survey[0],
+            name: "ranking_helpful",
+            options: [
+              "very low", "low","mid","high","very high"
+            ],
+            required: true
+          },
+        {
+          type: 'likert-table',
+          prompt: 'State how much you agree with following statements about the model.',
+          statements: instructions.survey[1],
+          options: ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'],
+          required: true
+        }
+      ]
+    ],
+    button_label_finish: "Next >",
+    data: {
+        task: 'survey'
+    },
+    on_finish: function(data){
+        jsPsych.setProgressBar(data.trial_index/overall_trials);
+    }
+  };
+
+  
+var thanks = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+        return `<div class=\"content\">
+        <p>Thank you for participating in this experiment!<br><br></p> 
+     </div> <div class=\"bottom-link\"> <a href=\"https://imprint.mpi-klsb.mpg.de/sws/hac-experiment.mpi-sws.org\" class=\"my-link\">Imprint</a> | <a href=\"https://data-protection.mpi-klsb.mpg.de/sws/hac-experiment.mpi-sws.org?lang=en\" class=\"my-link\">Data Protection</a> </div>  
+        `;
+    },
+    choices: ["Finish >"],
+    data: {
+        task: 'thanks'
+    },
+    on_finish: function(data){
+        jsPsych.setProgressBar(data.trial_index/overall_trials);
+    }
+};
+timeline.push(debrief_block, survey, save_data, thanks);
 //timeline.push(debrief_block);
 
 jsPsych.run(timeline);
