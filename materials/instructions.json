@@ -23,5 +23,12 @@
         "AI_conf": "<p>Model’s confidence that the picked card is red: </p>",
         "human_AI_conf": "<p> What is your confidence that the picked card is red after seeing the model's confidence: <br><br> </p>",
         "decision": "<p>Which color would you like to bet on?<br><br></p></p>"
-    }
+    },
+    "survey":[ "Rank the frequency of red cards according to when the model was more helpful to you: (1 means most helpful, 5 least helpful)",
+    [{"prompt":"I would have won points in some rounds if I had not changed my confidence based on the models advice.", "name":"harm"},
+    {"prompt":"I would have lost points in some rounds if I had not changed my confidence based on the models advice.", "name":"benefit"},
+    {"prompt":"I think overall the model helped me gain more points.","name":"overall_helpfull"}, 
+    {"prompt":"I think the model was more accurate in some rounds than in others.","name":"accuracy"},
+    {"prompt":"I think in some rounds the models estimate was very off.","name":"very_inaccurate"}
+    ]]
 }
