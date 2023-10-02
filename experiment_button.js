@@ -3,7 +3,7 @@ var jsPsych = initJsPsych({
     show_progress_bar: true,
     auto_update_progress_bar: false,
     // on_finish: function() {
-    //     jsPsych.data.displayData();
+    //     // jsPsych.data.displayData();
     //     jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
     // }
 });
@@ -17,8 +17,8 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 var image_size = [80,120]
-var nr_trials = 4
-var nr_trials_AI = 8
+var nr_trials = 1//4
+var nr_trials_AI =1// 8
 var overall_trials =  5 * (2*nr_trials_AI+1)+ 4 * (2*nr_trials+1)+ 11 + 5 + 2
 var played_rounds = 0
 var slider_size = 350
@@ -553,6 +553,7 @@ var survey = {
         {
           type: 'likert-table',
           prompt: 'State how much you agree with following statements about the model.',
+          name: 'statements',
           statements: instructions.survey[1],
           options: ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'],
           required: true
