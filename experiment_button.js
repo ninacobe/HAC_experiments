@@ -566,6 +566,10 @@ var survey = {
     },
     on_finish: function(data){
         jsPsych.setProgressBar(data.trial_index/overall_trials);
+        var ranking = data.response.ranking;
+        var statements = data.response.statements;
+        data.ranking =ranking;
+        data.statements = statements;
     }
   };
 

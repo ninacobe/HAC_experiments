@@ -38,6 +38,10 @@ try {
         $insertstmt->bindValue(":$colname", $id); 
       } else if ($colname == "response"){
         $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
+      } else if ($colname == "ranking"){
+        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
+      } else if ($colname == "statements"){
+        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
       } else if(!isset($data_array[$i][$colname])){
         $insertstmt->bindValue(":$colname", null, PDO::PARAM_NULL);
       } else {
