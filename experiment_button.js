@@ -182,7 +182,8 @@ var game_pile_intro = {
     save_trial_parameters: {stimulus_duration: true},
     choices: [],
     data: {
-        task: 'stimulus_intro'
+        task: 'stimulus_intro',
+        stimulus_id: grid_intro.id
     },
 };
 
@@ -197,7 +198,7 @@ var game_pile_AI_intro = {
     choices: [],
     data: {
         task: 'stimulus_AI_intro',
-        stimulus_id: grid_intro.id
+        stimulus_id: grid_AI_intro.id
     },
 };
 
@@ -232,6 +233,27 @@ var human_conf_intro = {
     data: {
         task: 'human_conf_intro',
         stimulus_id: grid_intro.id
+    },
+    on_finish: function(data){
+        data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
+    }
+};
+
+var human_conf_AI_intro = {
+    type: jsPsychHtmlSliderResponse,
+    stimulus: instructions.game_intro.human_conf,
+    labels: ['very low','low', 'mid', 'high', 'very high'],
+    min: 0,
+    max: 4,
+    slider_start: 2,
+    slider_width: function(){
+        return slider_size
+    },
+    button_label: 'Next >',
+    require_movement: true,
+    data: {
+        task: 'human_conf_intro',
+        stimulus_id: grid_AI_intro.id
     },
     on_finish: function(data){
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -435,7 +457,7 @@ var game_play = {
 
 /* Game Intro with AI */
 var AI_intro = {
-    timeline: [ game_pile_AI_intro, human_conf_intro, human_AI_conf_intro, decision_AI_intro, outcome_AI_intro],
+    timeline: [ game_pile_AI_intro, human_conf_AI_intro, human_AI_conf_intro, decision_AI_intro, outcome_AI_intro],
     timeline_variables: [instructions.AI_intro],
     // randomize_order: true
 }
