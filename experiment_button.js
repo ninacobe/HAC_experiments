@@ -125,7 +125,7 @@ var ai_instructions = {
     pages: instructions.AI_instructions, 
     show_clickable_nav: true,
     data: {
-        task: 'ai_intro'
+        task: 'AI_intro'
     },
     on_finish: function(data){
         jsPsych.setProgressBar(data.trial_index/overall_trials);
@@ -196,7 +196,8 @@ var game_pile_AI_intro = {
     save_trial_parameters: {stimulus_duration: true},
     choices: [],
     data: {
-        task: 'stimulus_AI_intro'
+        task: 'stimulus_AI_intro',
+        stimulus_id: grid_intro.id
     },
 };
 
@@ -211,7 +212,8 @@ var game_pile = {
     trial_duration: 1300,
     choices: [],
     data: {
-        task: 'stimulus'
+        task: 'stimulus',
+        stimulus_id: jsPsych.timelineVariable('id')
     }
 };
 
