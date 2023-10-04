@@ -184,7 +184,7 @@ var game_pile_intro = {
     data: {
         task: 'stimulus_intro',
         stimulus_id: grid_intro.id,
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
 };
 
@@ -200,7 +200,7 @@ var game_pile_AI_intro = {
     data: {
         task: 'stimulus_AI_intro',
         stimulus_id: grid_AI_intro.id,
-        trial_id: played_rounds  
+        trial_id: function(){return played_rounds;} 
     },
 };
 
@@ -217,7 +217,7 @@ var game_pile = {
     data: {
         task: 'stimulus',
         stimulus_id: jsPsych.timelineVariable('id'),
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     }
 };
 
@@ -236,7 +236,7 @@ var human_conf_intro = {
     data: {
         task: 'human_conf_intro',
         stimulus_id: grid_intro.id,
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -258,7 +258,7 @@ var human_conf_AI_intro = {
     data: {
         task: 'human_conf_intro',
         stimulus_id: grid_AI_intro.id,
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -280,8 +280,8 @@ var human_conf ={
     data: {
         task: 'human_conf',
         stimulus_id: jsPsych.timelineVariable('id'),
-        trial_id: played_rounds,
-        true_prob: function(data){ return Math.round(jsPsych.timelineVariable('nr_reds')/jsPsych.timelineVariable('nr_total') *100);}
+        trial_id: function(){return played_rounds;},
+        true_prob: function(){ return Math.round(jsPsych.timelineVariable('nr_reds')/jsPsych.timelineVariable('nr_total') *100);}
     },
     on_finish: function(data){
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -304,7 +304,7 @@ var human_AI_conf_intro ={
         task: 'human_AI_conf_intro',
         stimulus_id: grid_AI_intro.id,
         Ai_conf: grid_AI_intro.AI_conf,
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -329,7 +329,7 @@ var human_AI_conf = {
         task: 'human_AI_conf',
         stimulus_id: jsPsych.timelineVariable('id'),
         Ai_conf: jsPsych.timelineVariable('AI_conf'),
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -344,7 +344,7 @@ var decision_intro = {
     data: {
         task: 'decision_intro',
         stimulus_id: grid_intro.id,
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         data.decision = ['Black','Red'].at(data.response);
@@ -359,7 +359,7 @@ var decision_AI_intro = {
     data: {
         task: 'decision',
         stimulus_id: grid_AI_intro.id,
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         data.decision = ['Black','Red'].at(data.response);
@@ -374,7 +374,7 @@ var decision = {
     data: {
         task: 'decision',
         stimulus_id: jsPsych.timelineVariable('id'),
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         data.decision = ['Black','Red'].at(data.response);
@@ -391,7 +391,7 @@ var outcome_intro = {
     data: {
         task: 'outcome_intro',
         stimulus_id: grid_intro.id,
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         var card = data.stimulus;
@@ -414,7 +414,7 @@ var outcome_AI_intro = {
     data: {
         task: 'outcome_AI_intro',
         stimulus_id: grid_AI_intro.id,
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
         var card = data.stimulus;
@@ -437,7 +437,7 @@ var outcome = {
     data: {
         task: 'outcome',
         stimulus_id: jsPsych.timelineVariable('id'),
-        trial_id: played_rounds
+        trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
             jsPsych.setProgressBar(data.trial_index/overall_trials);
