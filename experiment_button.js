@@ -236,7 +236,8 @@ var human_conf_intro = {
     data: {
         task: 'human_conf_intro',
         stimulus_id: grid_intro.id,
-        trial_id: function(){return played_rounds;}
+        trial_id: function(){return played_rounds;},
+        true_prob: function(){ return Math.round(grid_intro.nr_reds/grid_intro.nr_total *100);}
     },
     on_finish: function(data){
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -258,7 +259,8 @@ var human_conf_AI_intro = {
     data: {
         task: 'human_conf_intro',
         stimulus_id: grid_AI_intro.id,
-        trial_id: function(){return played_rounds;}
+        trial_id: function(){return played_rounds;},
+        true_prob: function(){ return Math.round(grid_AI_intro.nr_reds/grid_AI_intro.nr_total *100);}
     },
     on_finish: function(data){
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
