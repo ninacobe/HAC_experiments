@@ -1,6 +1,6 @@
 [
     {
-        "id": 0,
+        "id": -1,
         "batch": "attention",
         "stimulus": [
             [
@@ -125,7 +125,7 @@
         "AI_conf": 100
     },
     {
-        "id": 1,
+        "id": -2,
         "batch": "attention",
         "stimulus": [
             [
@@ -250,7 +250,7 @@
         "AI_conf": 60
     },
     {
-        "id": 2,
+        "id": -3,
         "batch": "attention",
         "stimulus": [
             [
