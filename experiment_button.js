@@ -391,7 +391,7 @@ var outcome_intro = {
     data: {
         task: 'outcome_intro',
         stimulus_id: grid_intro.id,
-        trial_id: function(){return played_rounds;}
+        trial_id: function(){return played_rounds-1;}
     },
     on_finish: function(data){
         var card = data.stimulus;
@@ -414,7 +414,7 @@ var outcome_AI_intro = {
     data: {
         task: 'outcome_AI_intro',
         stimulus_id: grid_AI_intro.id,
-        trial_id: function(){return played_rounds;}
+        trial_id: function(){return played_rounds-1;}
     },
     on_finish: function(data){
         var card = data.stimulus;
@@ -437,7 +437,7 @@ var outcome = {
     data: {
         task: 'outcome',
         stimulus_id: jsPsych.timelineVariable('id'),
-        trial_id: function(){return played_rounds;}
+        trial_id: function(){return played_rounds-1;}
     },
     on_finish: function(data){
             jsPsych.setProgressBar(data.trial_index/overall_trials);
