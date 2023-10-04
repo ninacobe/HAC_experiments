@@ -183,7 +183,8 @@ var game_pile_intro = {
     choices: [],
     data: {
         task: 'stimulus_intro',
-        stimulus_id: grid_intro.id
+        stimulus_id: grid_intro.id,
+        trial_id: played_rounds
     },
 };
 
@@ -198,7 +199,8 @@ var game_pile_AI_intro = {
     choices: [],
     data: {
         task: 'stimulus_AI_intro',
-        stimulus_id: grid_AI_intro.id
+        stimulus_id: grid_AI_intro.id,
+        trial_id: played_rounds  
     },
 };
 
@@ -214,7 +216,8 @@ var game_pile = {
     choices: [],
     data: {
         task: 'stimulus',
-        stimulus_id: jsPsych.timelineVariable('id')
+        stimulus_id: jsPsych.timelineVariable('id'),
+        trial_id: played_rounds
     }
 };
 
@@ -232,7 +235,8 @@ var human_conf_intro = {
     require_movement: true,
     data: {
         task: 'human_conf_intro',
-        stimulus_id: grid_intro.id
+        stimulus_id: grid_intro.id,
+        trial_id: played_rounds
     },
     on_finish: function(data){
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -253,7 +257,8 @@ var human_conf_AI_intro = {
     require_movement: true,
     data: {
         task: 'human_conf_intro',
-        stimulus_id: grid_AI_intro.id
+        stimulus_id: grid_AI_intro.id,
+        trial_id: played_rounds
     },
     on_finish: function(data){
         data.human_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -275,6 +280,7 @@ var human_conf ={
     data: {
         task: 'human_conf',
         stimulus_id: jsPsych.timelineVariable('id'),
+        trial_id: played_rounds,
         true_prob: function(data){ return Math.round(jsPsych.timelineVariable('nr_reds')/jsPsych.timelineVariable('nr_total') *100);}
     },
     on_finish: function(data){
@@ -298,6 +304,7 @@ var human_AI_conf_intro ={
         task: 'human_AI_conf_intro',
         stimulus_id: grid_AI_intro.id,
         Ai_conf: grid_AI_intro.AI_conf,
+        trial_id: played_rounds
     },
     on_finish: function(data){
         data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -321,7 +328,8 @@ var human_AI_conf = {
     data: {
         task: 'human_AI_conf',
         stimulus_id: jsPsych.timelineVariable('id'),
-        Ai_conf: jsPsych.timelineVariable('AI_conf')
+        Ai_conf: jsPsych.timelineVariable('AI_conf'),
+        trial_id: played_rounds
     },
     on_finish: function(data){
         data.human_AI_conf = ['very low','low', 'mid', 'high', 'very high'].at(data.response);
@@ -335,7 +343,8 @@ var decision_intro = {
     button_html: ['<button class="black-btn">%choice%</button>','<button class="red-btn">%choice%</button>'],
     data: {
         task: 'decision_intro',
-        stimulus_id: grid_intro.id
+        stimulus_id: grid_intro.id,
+        trial_id: played_rounds
     },
     on_finish: function(data){
         data.decision = ['Black','Red'].at(data.response);
@@ -349,7 +358,8 @@ var decision_AI_intro = {
     button_html: ['<button class="black-btn">%choice%</button>','<button class="red-btn">%choice%</button>'],
     data: {
         task: 'decision',
-        stimulus_id: grid_AI_intro.id
+        stimulus_id: grid_AI_intro.id,
+        trial_id: played_rounds
     },
     on_finish: function(data){
         data.decision = ['Black','Red'].at(data.response);
@@ -363,7 +373,8 @@ var decision = {
     button_html: ['<button class="black-btn">%choice%</button>','<button class="red-btn">%choice%</button>'],
     data: {
         task: 'decision',
-        stimulus_id: jsPsych.timelineVariable('id')
+        stimulus_id: jsPsych.timelineVariable('id'),
+        trial_id: played_rounds
     },
     on_finish: function(data){
         data.decision = ['Black','Red'].at(data.response);
@@ -379,14 +390,15 @@ var outcome_intro = {
     choices: ['Next Round >'],
     data: {
         task: 'outcome_intro',
-        stimulus_id: grid_intro.id
+        stimulus_id: grid_intro.id,
+        trial_id: played_rounds
     },
     on_finish: function(data){
         var card = data.stimulus;
             if (["hearts","diamonds"].some(v => card.includes(v))) {
-                data.outcome =  1 ;
+                data.outcome =  "Red" ;
             }else if (["clubs","spades"].some(v => card.includes(v))){
-                data.outcome =  0 ;
+                data.outcome =  "Black";
             }
             jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
@@ -401,14 +413,15 @@ var outcome_AI_intro = {
     choices: ['Next Round >'],
     data: {
         task: 'outcome_AI_intro',
-        stimulus_id: grid_AI_intro.id
+        stimulus_id: grid_AI_intro.id,
+        trial_id: played_rounds
     },
     on_finish: function(data){
         var card = data.stimulus;
             if (["hearts","diamonds"].some(v => card.includes(v))) {
-                data.outcome =  1 ;
+                data.outcome =  "Red" ;
             }else if (["clubs","spades"].some(v => card.includes(v))){
-                data.outcome =  0 ;
+                data.outcome =  "Black" ;
             }
         jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
@@ -423,16 +436,17 @@ var outcome = {
     choices: ['Next Round >'],
     data: {
         task: 'outcome',
-        stimulus_id: jsPsych.timelineVariable('id')
+        stimulus_id: jsPsych.timelineVariable('id'),
+        trial_id: played_rounds
     },
     on_finish: function(data){
             jsPsych.setProgressBar(data.trial_index/overall_trials);
             
             var card = data.stimulus;
             if (["hearts","diamonds"].some(v => card.includes(v))) {
-                data.outcome =  1 ;
+                data.outcome =  "Red" ;
             }else if (["clubs","spades"].some(v => card.includes(v))){
-                data.outcome =  0 ;
+                data.outcome =  "Black" ;
             }
     }
 };
