@@ -5,7 +5,7 @@
     "game_intro":{
         "intro": "<p>Let’s play a card game!<br><br>",
         "game_pile": "<p>This Round’s Game Pile:<br></p>",
-        "human_conf": "<p>A random card will be picked from this round’s game pile. <br> State your confidence that the picked card is red:<br>(You need to click a value on the scale to click next.)<br><br></p>",
+        "human_conf": "<p>A random card will be picked from this round’s game pile. <br> State your confidence that the picked card is red:<br><br> <span class=\"attention\"> (You need to click a value on the scale to click next.)</span><br><br></p>",
         "decision": "<p>You <span class=\"orange\">win 1 point</span> in this round if you <span class=\"orange\">bet on the color of the picked card</span>. <br> You win no points if you bet on a different color. <br><br> Which color would you like to bet on?<br><br></p>"
         },
     "AI_intro":{
@@ -24,9 +24,10 @@
         "human_AI_conf": "<p> What is your confidence that the picked card is red after seeing the model's confidence: <br><br> </p>",
         "decision": "<p>Which color would you like to bet on?<br><br></p></p>"
     },
-    "survey":[ "Rank the frequency of red cards according to when the model was more helpful to you: (1 means most helpful, 5 least helpful)",
-    [{"prompt":"I would have won points in some rounds if I had not changed my confidence based on the models advice.", "name":"harm"},
-    {"prompt":"I would have lost points in some rounds if I had not changed my confidence based on the models advice.", "name":"benefit"},
+    "survey":[ "Rank your confidence level based on how helpfull of the model was to you. For example, \"low\" at position 1 means that the model was most helpful when you confidence was low that a red card is picked. ",
+    [{"prompt":"The model's advice did not change my confidence at all, I did not trust the model.", "name":"trust"},
+    {"prompt":"I did not win points in some rounds, because I changed my confidence based on the models advice.", "name":"harm"},
+    {"prompt":"I won points in some rounds, because I changed my confidence based on the models advice.", "name":"benefit"},
     {"prompt":"I think overall the model helped me gain more points.","name":"overall_helpfull"}, 
     {"prompt":"I think the model was more accurate in some rounds than in others.","name":"accuracy"},
     {"prompt":"I think in some rounds the models estimate was very off.","name":"very_inaccurate"}
