@@ -17,7 +17,7 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 var image_size = [80,120]
-var nr_trials = 4
+var nr_trials = 17
 var overall_trials =  8 * (nr_trials+4) + 9
 var played_rounds = 0
 var slider_size = 350
@@ -356,7 +356,7 @@ var survey = {
 
 var start = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 15 cent</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
+    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 10 cent</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
     choices: ['Start Game >'],
     data: {
         task: 'start'
@@ -379,7 +379,7 @@ var training = {
 }
 
 var halfway = Math.round(nr_trials/2)-1;
-console.log(halfway); 
+// console.log(halfway); 
 
 /* Game Play */
 var game_play_1 = {
@@ -418,7 +418,7 @@ var intermission_block = {
     }
 };
 
-// timeline.push( example, start, training, game_play_1, attention_test_trial, intermission_block, game_play_2)
+timeline.push( example, start, training, game_play_1, attention_test_trial, intermission_block, game_play_2)
 
 
 var save_data = {
