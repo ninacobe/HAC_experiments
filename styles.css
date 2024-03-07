@@ -38,13 +38,34 @@ select {
     margin-left: auto;
     margin-right: auto;
     width: 90%;
-  }
+}
+.center-stimuli {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.center-outcome {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
 .center-small {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
 }
+.stimuli-container {
+  border: 1px solid #6e7072; /* Set the border style */
+  display: inline-block;  /*Ensure the container wraps around the image */
+  width: 70%;
+}
+.outcome-container {
+  border: 1px solid #6e7072; /* Set the border style */
+  display: inline-block;  /*Ensure the container wraps around the image */
+  width: 28%;
+} 
 .image-container {
   border: 1px solid #6e7072; /* Set the border style */
   display: inline-block;  /*Ensure the container wraps around the image */
@@ -112,3 +133,4 @@ select {
 .my-link {
   color: rgb(64, 162, 194);
 }
+

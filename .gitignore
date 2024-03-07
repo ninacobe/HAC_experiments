@@ -3,5 +3,6 @@
 /test_index2.html
 /extra/*
 /extra
+/.vscode
 /database_config.php
 /HAC-experiment.session.sql

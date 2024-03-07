@@ -7,14 +7,16 @@ import math
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
 def main():
 
     # Opening JSON file
-    f = open('./materials/stimuli.json')
+    f = open('./materials/stimuli_easy.json')
     
     # returns JSON object as
     # a dictionary
     stimuli = json.load(f)
+
     # easy = [ 1  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)>=50 and (stimulus["AI_conf"] >= 50)) ] + [ 1  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)<50 and (stimulus["AI_conf"] < 50)) ]
     # hard = [ ((stimulus["nr_reds"]/stimulus["nr_total"]*100), stimulus["AI_conf"])  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)>=50 and (stimulus["AI_conf"] < 50)) ] + [ ((stimulus["nr_reds"]/stimulus["nr_total"]*100), stimulus["AI_conf"])  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)<50 and (stimulus["AI_conf"] >= 50)) ]
     # easy = [ 1  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)>=70 and (stimulus["AI_conf"] >= 70)) ] + [ 1  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)<70 and (stimulus["AI_conf"] < 70)) ]
@@ -42,24 +44,51 @@ def main():
     print("Hard stimuli: ", hard_total)
     # print("Hard stimuli: ", hard)
 
-    true_prob = [ stimulus["nr_reds"]/stimulus["nr_total"] for stimulus in stimuli] 
+    true_prob = [ round((stimulus["nr_reds"]/stimulus["nr_total"])*100) for stimulus in stimuli] 
     model_conf = [ stimulus["AI_conf"] for stimulus in stimuli]  
     df = pd.DataFrame({'true_prob': true_prob, 'model_conf':model_conf })
-    sns.histplot(df, x="true_prob", y="model_conf", cbar=TRUE )
+    print(df.groupby(["model_conf"], as_index=False).count()["true_prob"]/df.shape[0])
+    # sns.histplot(df, x="true_prob", y="model_conf", discrete=(False, True),  cbar=TRUE )
+    sns.histplot(df, x="true_prob", y="model_conf", discrete=(True, True),  cbar=TRUE )
+    plt.show()
+    print(len(stimuli))
+
+    human_conf = [ ] 
+    for a,b in zip(true_prob, model_conf):
+        if a<=b+100/13 and a>=b-100/13:
+            human_conf.append('mid')
+        if a < b-100/13:
+            human_conf.append('high')
+        if a > b+100/13:
+            human_conf.append('low')
+    df_bar = pd.DataFrame({'true_prob': true_prob, 'model_conf':model_conf , 'human_conf':human_conf})
+    df_bar_count = df_bar.groupby(["human_conf","model_conf"], as_index=False).count() 
+    print(df_bar_count)
+    ax= sns.barplot(x='model_conf', y='true_prob', hue='human_conf', estimator=np.nanmean, errorbar=('ci', 90), errwidth=.2, capsize=.12, hue_order=[ "low", "mid", "high"], data=df_bar)
+    for container, conf in zip(ax.containers, [ "low", "mid", "high"]):
+        ax.bar_label(container, labels=df_bar_count[df_bar_count["human_conf"]==conf]["true_prob"], fmt='%.1f')
     plt.show()
 
+
+    # print(df)
+    ece = df.groupby(by=['model_conf'], as_index=False).mean()
+    print(ece)
+    print( "ECE:", abs(ece['model_conf']-ece['true_prob']).mean()/100)
+    print( "MCE:", abs(ece['model_conf']-ece['true_prob']).max()/100)
+
     alpha= 0.1
-    gamma = 1/5
-    human_conf_val = 5.0
+    gamma = 1/3
+    human_conf_val = 3.0
     eta = 0.1
     nr_datapoints = lambda x: human_conf_val/(alpha*alpha*x*gamma) * math.log(human_conf_val/(x*eta))
-    nr_bins = np.arange(1,26)
-    nr_stimuli = 24
+    nr_bins = np.arange(1,20)
+    nr_stimuli = 17
     data =[nr_datapoints(1/x) for x in nr_bins]
     people =[round(nr_datapoints(1/x)/nr_stimuli) for x in nr_bins]
     df_bins = pd.DataFrame({'nr_bins': nr_bins, 'participants':people })
     sns.relplot(df_bins, x='nr_bins', y='participants')
     plt.show()
+    print(round(nr_datapoints(1/6)/nr_stimuli))
 
 if __name__ == "__main__":
     main()

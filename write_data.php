@@ -16,6 +16,7 @@ try {
   while($row = $stmt->fetchColumn()) {
     $col_names[] = $row;
   }
+
   // Second stage is to create prepared SQL statement using the column
   // names as a guide to what values might be in the JSON.
   // If a value is missing from a particular trial, then NULL is inserted
@@ -31,16 +32,24 @@ try {
   //create unique id for participant
   $id = uniqid("");
   $insertstmt = $conn->prepare($sql);
-  for($i=0; $i < count($data_array); $i++){
+  for($i=0; $i < count($data_array)-1; $i++){
     for($j = 0; $j < count($col_names); $j++){
       $colname = $col_names[$j];
       if ($colname == "participant_id"){
-        $insertstmt->bindValue(":$colname", $id); 
+        $insertstmt->bindValue(":$colname", $id);
       } else if ($colname == "response"){
         $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
-      } else if ($colname == "ranking"){
+      } else if ($colname == "recap"){
         $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
       } else if ($colname == "statements"){
+        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
+      } else if ($colname == "age"){
+        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
+      } else if ($colname == "gender"){
+        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
+      } else if ($colname == "degree"){
+        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
+      } else if ($colname == "subjects"){
         $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
       } else if(!isset($data_array[$i][$colname])){
         $insertstmt->bindValue(":$colname", null, PDO::PARAM_NULL);
@@ -50,6 +59,29 @@ try {
     }
     $insertstmt->execute();
   }
+  //prepare statement to insert prolific meta data into table
+  // If a value is missing from a particular trial, then NULL is inserted
+  $sql_meta = "INSERT INTO $table_meta VALUES(";
+  for($i = 0; $i < count($col_names); $i++){
+    $name = $col_names[$i];
+    $sql_meta .= ":$name";
+    if($i != count($col_names)-1){
+      $sql_meta .= ", ";
+    }
+  }
+  $sql_meta .= ");";
+  $insertstmt_meta = $conn->prepare($sql_meta);
+  $i = count($data_array)-1;
+  for($j = 0; $j < count($col_names); $j++){
+      $colname = $col_names[$j];
+      if(!isset($data_array[$i][$colname])){
+        $insertstmt_meta->bindValue(":$colname", null, PDO::PARAM_NULL);
+      } else {
+        $insertstmt_meta->bindValue(":$colname", $data_array[$i][$colname]);
+      }
+  }
+  $insertstmt_meta->execute();
+
   echo '{"success": true}';
 } catch(PDOException $e) {
   echo '{"success": false, "message": ' . $e->getMessage();
