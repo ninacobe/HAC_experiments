@@ -30,8 +30,7 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 jsPsych.data.addProperties({
-    level_name: level_string,
-    points: points
+    level_name: level_string
   });
 var image_size = [80,120]
 var nr_trials = 17
@@ -301,7 +300,8 @@ var outcome_example = {
     data: {
         task: 'outcome_intro',
         stimulus_id: grid_intro.id,
-        trial_id: function(){return played_rounds-1;}
+        trial_id: function(){return played_rounds-1;},
+	points: function() {return points;}	
     },
     on_finish: function(data){
         var card = data.stimulus;
@@ -324,7 +324,8 @@ var outcome = {
     data: {
         task: 'outcome',
         stimulus_id: jsPsych.timelineVariable('id'),
-        trial_id: function(){return played_rounds-1;}
+        trial_id: function(){return played_rounds-1;},
+	points: function() {return points;}
     },
     on_finish: function(data){
         var card = data.stimulus;
@@ -373,7 +374,7 @@ var survey = {
 
 var start = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 7 cent</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
+    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 5 cent</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
     choices: ['Start Game >'],
     data: {
         task: 'start'
@@ -445,6 +446,7 @@ var save_data = {
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'write_data.php');
       xhr.setRequestHeader('Content-Type', 'application/json');
+      console.log(jsPsych.data.get().json())
       xhr.onload = function() {
         if(xhr.status == 200){
           var response = JSON.parse(xhr.responseText);
@@ -554,9 +556,11 @@ var demographic_survey = {
         data.age = data.response.age;
         data.gender = data.response.gender;
         data.degree = data.response.degree;
-        data.subject = data.response.subject;
+        data.subjects = data.response.subjects;
     }
   };
+
+timeline.push(debrief_block, final_survey, demographic_survey)
   
 var thanks = {
     type: jsPsychHtmlButtonResponse,
@@ -574,18 +578,18 @@ var thanks = {
         jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
 };
-timeline.push(debrief_block, final_survey, demographic_survey)
 
 var write_metadata = {
     type: jsPsychCallFunction,
     async: true,
-    func: function(){
+    func: function(done){
         jsPsych.data.write({
             subject_id: subject_id,
             study_id: study_id,
             session_id: session_id,
             total_points: points
         });
+	done();
     }
 }
 

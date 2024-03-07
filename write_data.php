@@ -32,24 +32,16 @@ try {
   //create unique id for participant
   $id = uniqid("");
   $insertstmt = $conn->prepare($sql);
-  for($i=0; $i < count($data_array)-1; $i++){
+  for($i=0; $i < count($data_array)-2; $i++){
     for($j = 0; $j < count($col_names); $j++){
       $colname = $col_names[$j];
       if ($colname == "participant_id"){
         $insertstmt->bindValue(":$colname", $id);
       } else if ($colname == "response"){
         $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
-      } else if ($colname == "recap"){
-        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
       } else if ($colname == "statements"){
         $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
-      } else if ($colname == "age"){
-        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
-      } else if ($colname == "gender"){
-        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
-      } else if ($colname == "degree"){
-        $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
-      } else if ($colname == "subjects"){
+      } else if ($colname == "final_statements"){
         $insertstmt->bindValue(":$colname", json_encode($data_array[$i][$colname]));
       } else if(!isset($data_array[$i][$colname])){
         $insertstmt->bindValue(":$colname", null, PDO::PARAM_NULL);
@@ -61,6 +53,13 @@ try {
   }
   //prepare statement to insert prolific meta data into table
   // If a value is missing from a particular trial, then NULL is inserted
+  $stmt = $conn->prepare("SHOW COLUMNS FROM `$table_meta`");
+  $stmt->execute();
+  $col_names = array();
+  while($row = $stmt->fetchColumn()) {
+    $col_names[] = $row;
+  }
+
   $sql_meta = "INSERT INTO $table_meta VALUES(";
   for($i = 0; $i < count($col_names); $i++){
     $name = $col_names[$i];
@@ -71,7 +70,7 @@ try {
   }
   $sql_meta .= ");";
   $insertstmt_meta = $conn->prepare($sql_meta);
-  $i = count($data_array)-1;
+  $i = count($data_array)-2;
   for($j = 0; $j < count($col_names); $j++){
       $colname = $col_names[$j];
       if(!isset($data_array[$i][$colname])){
