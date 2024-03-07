@@ -2,20 +2,37 @@
 var jsPsych = initJsPsych({
     show_progress_bar: true,
     auto_update_progress_bar: false,
+    on_finish: function(){
+        window.location = "https://app.prolific.co/submissions/complete?cc=XXXXXXX"
+    }
     // on_finish: function() {
     //     // jsPsych.data.displayData();
     //     jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
     // }
 });
 
+// capture info from Prolific
+// var level = jsPsych.data.getURLVariable('LEVEL');
+var subject_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
+var study_id = jsPsych.data.getURLVariable('STUDY_ID');
+var session_id = jsPsych.data.getURLVariable('SESSION_ID');
+
+// study_id in [0,1,2]
+var level_string = ["hard","random","easy"][study_id]
+//console.log(level_string)
+
 const EXPERIMENT_FILES = {  
     INSTRUCTIONS: 'materials/instructions.json',
-    STIMULI: "materials/stimuli.json",
+    STIMULI: `materials/stimuli_${level_string}.json`,
     ATTENTION_TESTS: "materials/attention_tests.json",
     CARDS: "materials/cards.json"
   };
 
 var points = 0;
+jsPsych.data.addProperties({
+    level_name: level_string,
+    points: points
+  });
 var image_size = [80,120]
 var nr_trials = 17
 var overall_trials =  8 * (nr_trials+4) + 9
@@ -35,9 +52,9 @@ function randomDrawn(game_pile, initial_decision, final_decision, example=false)
     var card_color = NaN
     played_rounds +=1
     if (["hearts","diamonds"].some(v => card.includes(v))) {
-        card_color = "red" ;
+        card_color = "Red" ;
     }else if (["clubs","spades"].some(v => card.includes(v))){
-        card_color = "black" ;
+        card_color = "Black" ;
     }
     var return_string = `<p> Card Picked:<br><br></p>`+`<img src=${card}  class="center-small"></img>`
 
@@ -254,7 +271,7 @@ var initial_decision = {
         trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
-        data.initial_decision = ['black','red'].at(data.response);
+        data.initial_decision = ['Black','Red'].at(data.response);
     }
 };
 
@@ -269,7 +286,7 @@ var final_decision = {
         trial_id: function(){return played_rounds;}
     },
     on_finish: function(data){
-        data.final_decision = ['black','red'].at(data.response);
+        data.final_decision = ['Black','Red'].at(data.response);
     }
 };
 
@@ -356,7 +373,7 @@ var survey = {
 
 var start = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 10 cent</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
+    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 7 cent</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
     choices: ['Start Game >'],
     data: {
         task: 'start'
@@ -453,6 +470,7 @@ var debrief_block = {
         jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
 };
+
 var final_survey = {
     type: jsPsychSurvey,
     pages: [
@@ -521,7 +539,7 @@ var demographic_survey = {
         {
             type: 'multi-choice',
             prompt: 'What subject area does your degree most closely relate to?',
-            name: 'subject',
+            name: 'subjects',
             options: ["Mathematics and Statistics", "IT and Engineering", "Natural Sciences", "Social Sciences", "Other", "I prefer not to say"],
             required: true
         }, 
@@ -556,7 +574,22 @@ var thanks = {
         jsPsych.setProgressBar(data.trial_index/overall_trials);
     }
 };
-timeline.push(debrief_block, final_survey, demographic_survey, thanks);
-// timeline.push(debrief_block, demographic_survey, save_data, thanks);
+timeline.push(debrief_block, final_survey, demographic_survey)
+
+var write_metadata = {
+    type: jsPsychCallFunction,
+    async: true,
+    func: function(){
+        jsPsych.data.write({
+            subject_id: subject_id,
+            study_id: study_id,
+            session_id: session_id,
+            total_points: points
+        });
+    }
+}
+
+//timeline.push(thanks);
+timeline.push(write_metadata, save_data, thanks);
 
 jsPsych.run(timeline);
