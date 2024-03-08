@@ -1,10 +1,7 @@
 /* initialize jsPsych */
 var jsPsych = initJsPsych({
     show_progress_bar: true,
-    auto_update_progress_bar: false,
-    on_finish: function(){
-        window.location = "https://app.prolific.co/submissions/complete?cc=XXXXXXX"
-    }
+    auto_update_progress_bar: false
     // on_finish: function() {
     //     // jsPsych.data.displayData();
     //     jsPsych.data.get().ignore('internal_node_id').ignore('view_history').ignore('stimulus').ignore('failed_audio').ignore('failed_video').localSave('csv','mydata.csv');
@@ -17,8 +14,15 @@ var subject_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
 var study_id = jsPsych.data.getURLVariable('STUDY_ID');
 var session_id = jsPsych.data.getURLVariable('SESSION_ID');
 
-// study_id in [0,1,2]
-var level_string = ["hard","random","easy"][study_id]
+var level_string = "hard";
+var completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
+switch (study_id){
+	case 0:
+	  level_string = "hard";
+	  completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
+	case 1:
+	  level_string = "random";
+}
 //console.log(level_string)
 
 const EXPERIMENT_FILES = {  
@@ -374,7 +378,7 @@ var survey = {
 
 var start = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 5 cent</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
+    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 5 cent (USD)</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
     choices: ['Start Game >'],
     data: {
         task: 'start'
@@ -574,8 +578,8 @@ var thanks = {
     data: {
         task: 'thanks'
     },
-    on_finish: function(data){
-        jsPsych.setProgressBar(data.trial_index/overall_trials);
+    on_finish: function(){
+        window.location = completion_URL
     }
 };
 
@@ -587,7 +591,8 @@ var write_metadata = {
             subject_id: subject_id,
             study_id: study_id,
             session_id: session_id,
-            total_points: points
+            total_points: points,
+	    level_name: level_string
         });
 	done();
     }
