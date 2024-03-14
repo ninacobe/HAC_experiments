@@ -15,7 +15,7 @@ var study_id = jsPsych.data.getURLVariable('STUDY_ID');
 var session_id = jsPsych.data.getURLVariable('SESSION_ID');
 
 var level_string = "hard";
-var completion_URL = "https://app.prolifics.com/submissions/complete?cc=C1501Z5C";
+var completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
 switch (study_id){
 	case '65eb1e35f4605acd28770e99':
 	  	level_string = "hard";
@@ -25,7 +25,7 @@ switch (study_id){
 	  	level_string = "random";
 		break;
 }
-console.log(level_string)
+// console.log(level_string)
 
 const EXPERIMENT_FILES = {  
     INSTRUCTIONS: 'materials/instructions.json',
@@ -41,7 +41,7 @@ jsPsych.data.addProperties({
 var image_size = [80,120]
 var nr_trials = 17
 var overall_trials =  8 * (nr_trials+4) + 9
-var played_rounds = 0
+var played_rounds = -1
 var slider_size = 350
 var duration = 550
 
@@ -78,7 +78,7 @@ function randomDrawn(game_pile, initial_decision, final_decision, example=false)
     
     if (example){
         points=0
-        played_rounds=0
+        //played_rounds=0
         return return_string
     }
 
@@ -109,17 +109,8 @@ await fetch(EXPERIMENT_FILES.STIMULI).then(response => response.json()).then( da
 await fetch(EXPERIMENT_FILES.ATTENTION_TESTS).then(response => response.json()).then( data => attention_tests = data)
 
 var stimuli_samples = jsPsych.randomization.sampleWithoutReplacement(stimuli, nr_trials);
-console.log(stimuli_samples);
+// console.log(stimuli_samples);
 
-// timeline.push({
-//     type: jsPsychHtmlButtonResponse,
-//     stimulus: function(){
-//         return "<span class=\"center\">" +jsPsychVslGridScene.generate_stimulus(stimuli[401].stimulus, image_size) + "</span>"},
-//     choices: [],
-//     data: {
-//         task: 'stimulus_intro'
-//     },
-// });
 
 /* display instruction messages */
 
@@ -331,7 +322,7 @@ var outcome = {
         task: 'outcome',
         stimulus_id: jsPsych.timelineVariable('id'),
         trial_id: function(){return played_rounds-1;},
-	points: function() {return points;}
+	    points: function() {return points;}
     },
     on_finish: function(data){
         var card = data.stimulus;
@@ -366,7 +357,9 @@ var survey = {
     ],
     button_label_finish: "Next Round >",
     data: {
-        task: 'survey'
+        task: 'survey',
+        stimulus_id: jsPsych.timelineVariable('id'),
+        trial_id: function(){return played_rounds-1;},
     },
     on_finish: function(data){
         jsPsych.setProgressBar(data.trial_index/overall_trials);

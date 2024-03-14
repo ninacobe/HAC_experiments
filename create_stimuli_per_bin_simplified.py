@@ -58,13 +58,17 @@ def create_stimulus(id, batch, nr_reds, nr_ai_reds, reds, blacks, shuffle=TRUE):
     # ai_reds =  sum([ 1 for card in np.random.choice(array, ai_total, replace = False) if any(substring in card for substring in ["hearts","diamonds"])])
     grid=array
     if shuffle==TRUE:
-        true_prob = round(nr_reds/nr_total * 100)
-        ai_conf = get_AI_conf(nr_ai_reds)
+        # true_prob = round(nr_reds/nr_total * 100)
+        # ai_conf = get_AI_conf(nr_ai_reds)
         grid_random = np.random.permutation(array).reshape(shape)   
-        if true_prob >= ai_conf:
+        # make the placement random 
+        if (nr_reds <= nr_ai_reds*4+1) and (nr_reds >= nr_ai_reds*4-1):
+            grid_hard = grid_random
+            grid_easy = grid_random
+        elif nr_reds > nr_ai_reds*4+1:
             grid_hard = get_grid(array, nr_reds, prob_red=1/5)
             grid_easy = get_grid(array, nr_reds, prob_red=4/5)
-        if true_prob < ai_conf: 
+        elif nr_reds < nr_ai_reds*4-1:
             grid_hard = get_grid(array, nr_reds, prob_red=4/5)
             grid_easy = get_grid(array, nr_reds, prob_red=1/5)
     else:
@@ -92,7 +96,21 @@ def create_stimulus_per_bin(reds, blacks):
         # full_var
         # choices = np.concatenate((np.arange(rmin,rmin+var), np.arange(rexp,rexp+1), np.arange(rmax-var+1,rmax+1)), axis=None)
         # few choices
-        choices = np.concatenate((np.arange(rmin,rmin+3), np.arange(rexp-1,rexp+2), np.arange(rmax-3+1,rmax+1)), axis=None)
+        low_choices = np.arange(rmin,rmin+3)
+        mid_choices = np.arange(rexp-1,rexp+2)
+        high_choices = np.arange(rmax-3+1,rmax+1)
+        
+        #avoid generating stimuli with true probability 50%
+        if 26 in low_choices:
+            ind = (low_choices==26).nonzero()[0][0]
+            low_choices[ind] =26+1
+            high_choices[2-ind] =high_choices[2-ind]-1
+        if 26 in high_choices:
+            ind = (high_choices==26).nonzero()[0][0]
+            low_choices[2-ind] =low_choices[2-ind]+1
+            high_choices[ind] =26-1
+
+        choices = np.concatenate((low_choices, mid_choices, high_choices), axis=None)
         for id, nr_reds in enumerate(np.random.choice(choices, stimuli_per_bin[nr_ai_reds])):
             stimuli = create_stimulus(id_offset + id, "game", int(nr_reds),nr_ai_reds, reds, blacks)
             bin_stimuli.append(stimuli)

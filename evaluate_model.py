@@ -6,16 +6,64 @@ import numpy as np
 import math
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+from mpl_toolkits.axes_grid1 import ImageGrid
 
+def show_grid(images):
+    # fig = plt.figure(figsize=(15, 10))
+    # grid = ImageGrid(fig, 111,  # similar to subplot(111)
+    #              nrows_ncols=(4, 13),  # creates 2x2 grid of axes
+    #              axes_pad=0.1,  # pad between axes in inch.
+    #              )
+
+    # for ax, im in zip(grid, images):
+    #     # Iterating over the grid returns the Axes.
+    #     img = mpimg.imread(im)
+    #     ax.imshow(img)
+
+    # plt.show()
+
+    # Determine the layout of the grid
+    grid_size = (4, 13)  # Change this to fit your needs
+
+    fig, axs = plt.subplots(grid_size[0], grid_size[1], figsize=(10, 5))
+    plt.subplots_adjust(wspace=0.1, hspace=0.1)
+
+    for i, img_file in enumerate(images):
+        # Read the image file
+        img = mpimg.imread(img_file)
+
+        # Plot the image in the grid
+        axs[i // grid_size[1], i % grid_size[1]].imshow(img)
+        axs[i // grid_size[1], i % grid_size[1]].axis('off')  # Hide the axis
+
+    plt.tight_layout()
+    plt.show()
 
 def main():
 
     # Opening JSON file
-    f = open('./materials/stimuli_easy.json')
-    
+    f = open('./materials/stimuli_hard.json')
     # returns JSON object as
-    # a dictionary
     stimuli = json.load(f)
+
+    f = open('./materials/stimuli_random.json')
+    # returns JSON object as
+    random_stimuli = json.load(f)
+
+    f = open('./materials/stimuli_easy.json')
+    # returns JSON object as
+    easy_stimuli = json.load(f)
+
+    # print(np.array(stimuli[1]["stimulus"]).flatten())
+
+    show_grid(np.array(stimuli[500]["stimulus"]).flatten().tolist())
+    show_grid(np.array(random_stimuli[500]["stimulus"]).flatten().tolist())
+    show_grid(np.array(easy_stimuli[500]["stimulus"]).flatten().tolist())
+
+    show_grid(np.array(stimuli[612]["stimulus"]).flatten().tolist())
+    show_grid(np.array(random_stimuli[612]["stimulus"]).flatten().tolist())
+    show_grid(np.array(easy_stimuli[612]["stimulus"]).flatten().tolist())   
 
     # easy = [ 1  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)>=50 and (stimulus["AI_conf"] >= 50)) ] + [ 1  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)<50 and (stimulus["AI_conf"] < 50)) ]
     # hard = [ ((stimulus["nr_reds"]/stimulus["nr_total"]*100), stimulus["AI_conf"])  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)>=50 and (stimulus["AI_conf"] < 50)) ] + [ ((stimulus["nr_reds"]/stimulus["nr_total"]*100), stimulus["AI_conf"])  for stimulus in stimuli if ((stimulus["nr_reds"]/stimulus["nr_total"]*100)<50 and (stimulus["AI_conf"] >= 50)) ]
