@@ -16,13 +16,22 @@ var session_id = jsPsych.data.getURLVariable('SESSION_ID');
 
 var level_string = "hard";
 var completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
+var attentionfail_URL = "https://app.prolific.com/submissions/complete?cc=CW2THAE9";
 switch (study_id){
 	case '65eb1e35f4605acd28770e99':
 	  	level_string = "hard";
 	  	completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
+		attentionfail_URL = "https://app.prolific.com/submissions/complete?cc=CW2THAE9";
 		break;
-	case '00':
+	case '65f33c8a3a114f6518219cd1':
 	  	level_string = "random";
+	  	completion_URL = "https://app.prolific.com/submissions/complete?cc=CXBJKGZ7";
+		attentionfail_URL = "https://app.prolific.com/submissions/complete?cc=CJYPY9PK";
+		break;
+	case '65f33f58fac5139ad1c5fcf5':
+	  	level_string = "easy";
+	  	completion_URL = "https://app.prolific.com/submissions/complete?cc=CA37HVZA";
+		attentionfail_URL = "https://app.prolific.com/submissions/complete?cc=C1MSBO7I";
 		break;
 }
 // console.log(level_string)
@@ -370,6 +379,28 @@ var survey = {
     }
   };
 
+var failed_attentiontest = {
+    type: jsPsychCallFunction,
+    async: true,
+    func: function(){
+        window.location = attentionfail_URL;
+    }
+};
+
+var if_node = {
+    timeline: [failed_attentiontest],
+    conditional_function: function(){
+        var initial_decision = jsPsych.data.getLastTimelineData().select('initial_decision').values.at(-1);
+        var stimulus_id = jsPsych.data.getLastTimelineData().select('stimulus_id').values.at(-1);
+	if (initial_decision=="Red" && stimulus_id=="-2"){
+		return true;
+	} else if (initial_decision=="Black" && stimulus_id=="-3"){
+		return true;
+	} else {
+		return false;
+	}
+    }
+};
 
 var start = {
     type: jsPsychHtmlButtonResponse,
@@ -391,7 +422,7 @@ var example = {
 
 /* Training */
 var training = {
-    timeline: [fixation, game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
+    timeline: [fixation, game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey, if_node],
     timeline_variables: attention_tests.slice(1,3)
 }
 
