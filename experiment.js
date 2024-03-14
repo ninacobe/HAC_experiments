@@ -15,15 +15,17 @@ var study_id = jsPsych.data.getURLVariable('STUDY_ID');
 var session_id = jsPsych.data.getURLVariable('SESSION_ID');
 
 var level_string = "hard";
-var completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
+var completion_URL = "https://app.prolifics.com/submissions/complete?cc=C1501Z5C";
 switch (study_id){
-	case 0:
-	  level_string = "hard";
-	  completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
-	case 1:
-	  level_string = "random";
+	case '65eb1e35f4605acd28770e99':
+	  	level_string = "hard";
+	  	completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
+		break;
+	case '00':
+	  	level_string = "random";
+		break;
 }
-//console.log(level_string)
+console.log(level_string)
 
 const EXPERIMENT_FILES = {  
     INSTRUCTIONS: 'materials/instructions.json',
@@ -41,7 +43,7 @@ var nr_trials = 17
 var overall_trials =  8 * (nr_trials+4) + 9
 var played_rounds = 0
 var slider_size = 350
-var duration = 600
+var duration = 550
 
 var instructions = {};
 var cards = {};
@@ -186,7 +188,7 @@ var fixation = {
     // trial_duration: function(){
     //   return jsPsych.randomization.sampleWithoutReplacement([1000], 1)[0];
     // },
-    trial_duration: duration+200,
+    trial_duration: duration+250,
     data: {
       task: 'fixation'
     }
