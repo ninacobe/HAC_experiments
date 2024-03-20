@@ -10,7 +10,8 @@ ai_total = 13
 shape = (4,13)
 nr_center = 20
 
-stimuli_per_bin = {0:0, 1:150, 2:300, 3:450, 4:450, 5:1800, 6:1800, 7:1800, 8:1800, 9:450, 10:450, 11:300, 12:150, 13:0}
+stimuli_per_bin = {0:0, 1:150, 2:300, 3:450, 4:450, 5:2700, 6:2700, 7:2700, 8:2700, 9:450, 10:450, 11:300, 12:150, 13:0}
+var_per_bin = {0:0, 1:3, 2:6, 3:6, 4:9, 5:10, 6:10, 7:10, 8:10, 9:9, 10:6, 11:6, 12:3, 13:0}
 #stimuli_per_bin = { k:int(s*2/10) for k, s in stimuli_per_bin.items()}
 stimuli_per_bin = { k:int(s/10) for k, s in stimuli_per_bin.items()}
 print(stimuli_per_bin)
@@ -85,7 +86,7 @@ def create_stimulus_per_bin(reds, blacks):
     id_offset=0
     for nr_ai_reds in range(0,14):
         max_var = 3*min(nr_ai_reds,13-nr_ai_reds)
-        var = min(10, max_var)
+        var = min(var_per_bin[nr_ai_reds], max_var)
         print(4*nr_ai_reds-var, 4*nr_ai_reds+var)
 
         bin_stimuli=[]
