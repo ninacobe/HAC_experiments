@@ -52,7 +52,7 @@ var nr_trials = 17
 var overall_trials =  8 * (nr_trials+4) + 9
 var played_rounds = -1
 var slider_size = 350
-var duration = 550
+var duration = 500
 
 var instructions = {};
 var cards = {};
@@ -188,7 +188,7 @@ var fixation = {
     // trial_duration: function(){
     //   return jsPsych.randomization.sampleWithoutReplacement([1000], 1)[0];
     // },
-    trial_duration: duration+250,
+    trial_duration: 1600,
     data: {
       task: 'fixation'
     }
