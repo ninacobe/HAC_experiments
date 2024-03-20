@@ -188,7 +188,7 @@ var fixation = {
     // trial_duration: function(){
     //   return jsPsych.randomization.sampleWithoutReplacement([1000], 1)[0];
     // },
-    trial_duration: duration+450,
+    trial_duration: 1600,
     data: {
       task: 'fixation'
     }

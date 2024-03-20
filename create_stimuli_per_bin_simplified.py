@@ -10,8 +10,9 @@ ai_total = 13
 shape = (4,13)
 nr_center = 20
 
-stimuli_per_bin = {0:0, 1:150, 2:300, 3:450, 4:600, 5:750, 6:900, 7:900, 8:750, 9:600, 10:450, 11:300, 12:150, 13:0}
-stimuli_per_bin = { k:int(s*2/10) for k, s in stimuli_per_bin.items()}
+stimuli_per_bin = {0:0, 1:150, 2:300, 3:450, 4:450, 5:1800, 6:1800, 7:1800, 8:1800, 9:450, 10:450, 11:300, 12:150, 13:0}
+#stimuli_per_bin = { k:int(s*2/10) for k, s in stimuli_per_bin.items()}
+stimuli_per_bin = { k:int(s/10) for k, s in stimuli_per_bin.items()}
 print(stimuli_per_bin)
 
 def get_AI_conf(ai_reds):
@@ -84,7 +85,7 @@ def create_stimulus_per_bin(reds, blacks):
     id_offset=0
     for nr_ai_reds in range(0,14):
         max_var = 3*min(nr_ai_reds,13-nr_ai_reds)
-        var = min(12, max_var)
+        var = min(10, max_var)
         print(4*nr_ai_reds-var, 4*nr_ai_reds+var)
 
         bin_stimuli=[]
@@ -103,12 +104,17 @@ def create_stimulus_per_bin(reds, blacks):
         #avoid generating stimuli with true probability 50%
         if 26 in low_choices:
             ind = (low_choices==26).nonzero()[0][0]
-            low_choices[ind] =26+1
-            high_choices[2-ind] =high_choices[2-ind]-1
+            print(ind)
+            low_choices[ind] =26+3
+            high_choices[2-ind] =high_choices[2-ind]-3
         if 26 in high_choices:
             ind = (high_choices==26).nonzero()[0][0]
-            low_choices[2-ind] =low_choices[2-ind]+1
-            high_choices[ind] =26-1
+            print(ind)
+            low_choices[2-ind] =low_choices[2-ind]+3
+            high_choices[ind] =26-3
+        if 26 in mid_choices:
+            ind = (mid_choices==26).nonzero()
+            print(ind)
 
         choices = np.concatenate((low_choices, mid_choices, high_choices), axis=None)
         for id, nr_reds in enumerate(np.random.choice(choices, stimuli_per_bin[nr_ai_reds])):
@@ -142,7 +148,7 @@ def main():
 
     red_grid = create_stimulus(-1,"attention",nr_total, ai_total, reds, blacks, shuffle=FALSE)
     black_grid = create_stimulus(-2,"attention",0, 0, reds, blacks, shuffle=FALSE)
-    quarter_grid = create_stimulus(-3,"attention",int(3 * nr_total/4),round(3 * ai_total/4 + np.random.randint(-3, 3)), reds, blacks, shuffle=FALSE)
+    quarter_grid = create_stimulus(-3,"attention",int(3 * nr_total/4),round(3 * ai_total/4 + np.random.randint(-1, 1)), reds, blacks, shuffle=FALSE)
     half_grid = create_stimulus(-4,"attention",int(nr_total/2),round(ai_total/2), reds, blacks, shuffle=FALSE)
 
     write_json_to_file(json.dumps([red_grid, black_grid, quarter_grid, half_grid], indent=4), "./materials/attention_tests.json")
