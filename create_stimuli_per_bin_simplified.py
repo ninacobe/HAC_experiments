@@ -116,9 +116,13 @@ def create_stimulus_per_bin(reds, blacks):
         if 26 in mid_choices:
             ind = (mid_choices==26).nonzero()
             print(ind)
+        
+        weights= np.full(9,1/9)
+        if nr_ai_reds in [5,6,7,8]:
+            weights=[4/9*1/3, 4/9*1/3, 4/9*1/3, 1/9*1/3, 1/9*1/3, 1/9*1/3, 4/9*1/3, 4/9*1/3, 4/9*1/3]
 
         choices = np.concatenate((low_choices, mid_choices, high_choices), axis=None)
-        for id, nr_reds in enumerate(np.random.choice(choices, stimuli_per_bin[nr_ai_reds])):
+        for id, nr_reds in enumerate(np.random.choice(choices, stimuli_per_bin[nr_ai_reds],replace = True, p=weights)):
             stimuli = create_stimulus(id_offset + id, "game", int(nr_reds),nr_ai_reds, reds, blacks)
             bin_stimuli.append(stimuli)
 

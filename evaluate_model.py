@@ -114,7 +114,10 @@ def main():
     print(df_bar_count)
     ax= sns.barplot(x='model_conf', y='true_prob', hue='human_conf', estimator=np.nanmean, errorbar=('ci', 90), errwidth=.2, capsize=.12, hue_order=[ "low", "mid", "high"], data=df_bar)
     for container, conf in zip(ax.containers, [ "low", "mid", "high"]):
-        ax.bar_label(container, labels=df_bar_count[df_bar_count["human_conf"]==conf]["true_prob"], fmt='%.1f')
+        if conf == "mid":
+            ax.bar_label(container, labels=df_bar_count[df_bar_count["human_conf"]==conf]["true_prob"], fmt='%.1f')
+        else:
+            ax.bar_label(container, labels=np.concatenate(([0],df_bar_count[df_bar_count["human_conf"]==conf]["true_prob"])), fmt='%.1f')
     plt.show()
 
 
