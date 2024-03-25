@@ -404,7 +404,7 @@ var if_node = {
 
 var start = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 5 cent (USD)</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
+    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 5 cents (£0.04)</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
     choices: ['Start Game >'],
     data: {
         task: 'start'
