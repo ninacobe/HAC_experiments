@@ -51,15 +51,15 @@ def main():
     # returns JSON object as
     random_stimuli = json.load(f)
 
-    f = open('./materials/stimuli_easy.json')
+    f = open('./extra/in_server/stimuli_easy.json')
     # returns JSON object as
     easy_stimuli = json.load(f)
 
     # print(np.array(stimuli[1]["stimulus"]).flatten())
 
-    show_grid(np.array(stimuli[500]["stimulus"]).flatten().tolist())
-    show_grid(np.array(random_stimuli[500]["stimulus"]).flatten().tolist())
-    show_grid(np.array(easy_stimuli[500]["stimulus"]).flatten().tolist())
+    show_grid(np.array(stimuli[174]["stimulus"]).flatten().tolist())
+    show_grid(np.array(random_stimuli[1253]["stimulus"]).flatten().tolist())
+    show_grid(np.array(easy_stimuli[1229]["stimulus"]).flatten().tolist())
 
     show_grid(np.array(stimuli[612]["stimulus"]).flatten().tolist())
     show_grid(np.array(random_stimuli[612]["stimulus"]).flatten().tolist())
@@ -109,6 +109,7 @@ def main():
             human_conf.append('high')
         if a > b+100/13:
             human_conf.append('low')
+    
     df_bar = pd.DataFrame({'true_prob': true_prob, 'model_conf':model_conf , 'human_conf':human_conf})
     df_bar_count = df_bar.groupby(["human_conf","model_conf"], as_index=False).count() 
     print(df_bar_count)
