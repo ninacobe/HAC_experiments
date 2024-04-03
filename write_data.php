@@ -74,7 +74,7 @@ try {
   for($j = 0; $j < count($col_names); $j++){
       $colname = $col_names[$j];
       if ($colname == "participant_id"){
-        $insertstmt->bindValue(":$colname", $id);
+        $insertstmt_meta->bindValue(":$colname", $id);
       } else if(!isset($data_array[$i][$colname])){
         $insertstmt_meta->bindValue(":$colname", null, PDO::PARAM_NULL);
       } else {

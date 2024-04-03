@@ -167,7 +167,7 @@ var size_check = {
             slider_size = (Math.round(data.width/3));
         }
         // image_size = (Math.round(data.width/21), Math.round(data.height/11));
-        image_size = [Math.round(data.width/15), Math.round(data.height/6.5)];
+        image_size = [Math.round(data.width/15), Math.round(data.height/6)];
         return true;
     }
 };
@@ -638,7 +638,7 @@ var write_metadata = {
             study_id: study_id,
             session_id: session_id,
             total_points: points,
-	        level_name: level_string
+	    level_name: level_string
         });
 	done();
     }
