@@ -441,7 +441,8 @@ var example = {
 
 /* Training */
 var training = {
-    timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey, if_node],
+    // timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey, if_node],
+    timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
     timeline_variables: attention_tests.slice(1,3)
 }
 
