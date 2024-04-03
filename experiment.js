@@ -45,14 +45,15 @@ const EXPERIMENT_FILES = {
 
 var points = 0;
 jsPsych.data.addProperties({
-    level_name: level_string
+    level_name: level_string,
+    study_id: study_id
   });
-var image_size = [80,120]
+var image_size = [80, 120]
 var nr_trials = 17
 var overall_trials =  8 * (nr_trials+4) + 9
 var played_rounds = -1
 var slider_size = 350
-var duration = 500
+var duration = 2000
 
 var instructions = {};
 var cards = {};
@@ -165,7 +166,8 @@ var size_check = {
         }else if (data.width/3 >= 350 && data.width/3 < 800){
             slider_size = (Math.round(data.width/3));
         }
-        image_size = (Math.round(data.width/21), Math.round(data.height/11));
+        // image_size = (Math.round(data.width/21), Math.round(data.height/11));
+        image_size = [Math.round(data.width/15), Math.round(data.height/6.5)];
         return true;
     }
 };
@@ -181,18 +183,35 @@ var grid_AI_intro = attention_tests[1];
 
 
 
-var fixation = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: '<div style="font-size:60px;">+</div>',
-    choices: [],
-    // trial_duration: function(){
-    //   return jsPsych.randomization.sampleWithoutReplacement([1000], 1)[0];
-    // },
-    trial_duration: 1600,
-    data: {
-      task: 'fixation'
-    }
-  }
+// var fixation = {
+//     type: jsPsychHtmlButtonResponse,
+//     stimulus: '<div style="font-size:60px;">+</div>',
+//     choices: [],
+//     // trial_duration: function(){
+//     //   return jsPsych.randomization.sampleWithoutReplacement([1000], 1)[0];
+//     // },
+//     trial_duration: 1600,
+//     data: {
+//       task: 'fixation'
+//     }
+//   }
+// var pile = {
+//     type: jsPsychHtmlButtonResponse,
+//     stimulus: function(){
+//         return jsPsychVslGridScene.generate_stimulus(stimuli.at(500)['stimulus'], image_size)},
+//     // stimulus_duration: duration,
+//     // function(){
+//     //     return jsPsych.randomization.sampleWithoutReplacement([500, 750, 1000, 1250], 1)[0];
+//     // },
+//     save_trial_parameters: {stimulus_duration: true},
+//     choices: ["yes"],
+//     data: {
+//         task: 'stimulus',
+//         stimulus_id: jsPsych.timelineVariable('id'),
+//         trial_id: function(){return played_rounds;}
+//     }
+// };
+// timeline.push(pile)
 
 var game_pile = {
     type: jsPsychHtmlButtonResponse,
@@ -416,13 +435,13 @@ var start = {
 
 /* Example */
 var example = {
-    timeline: [fixation, game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome_example, survey],
+    timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome_example, survey],
     timeline_variables: [attention_tests.at(3)]
 }
 
 /* Training */
 var training = {
-    timeline: [fixation, game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey, if_node],
+    timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey, if_node],
     timeline_variables: attention_tests.slice(1,3)
 }
 
@@ -431,19 +450,19 @@ var halfway = Math.round(nr_trials/2)-1;
 
 /* Game Play */
 var game_play_1 = {
-    timeline: [fixation, game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
+    timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
     timeline_variables: stimuli_samples.slice(0, halfway) 
 }
 
 var game_play_2 = {
-    timeline: [fixation, game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
+    timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
     timeline_variables: stimuli_samples.slice(halfway, nr_trials) 
 }
 
 
 /* Attention test */
 var attention_test_trial = {
-    timeline: [fixation, game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
+    timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
     timeline_variables: [attention_tests.at(0)],
     // sample: {
     //     type: 'without-replacement',
@@ -618,7 +637,7 @@ var write_metadata = {
             study_id: study_id,
             session_id: session_id,
             total_points: points,
-	    level_name: level_string
+	        level_name: level_string
         });
 	done();
     }
