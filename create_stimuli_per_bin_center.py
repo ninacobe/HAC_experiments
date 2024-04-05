@@ -24,6 +24,10 @@ def get_grid(array,reds, prob_red):
     center = np.random.choice(array, nr_center, replace = False, p=np.concatenate((np.full(reds, prob_red/reds), np.full(nr_total-reds, prob_black/(nr_total-reds)))))
     center_grid = center.reshape((4,round(nr_center/4))) 
     
+    hidden = np.repeat('img/img_card_back.png', 16)
+    hidden = hidden.reshape((4,4))
+    center_grid = np.concatenate((hidden,center_grid,hidden), axis=1)
+
     # # remove non center cards
     # values_array, counts_array = np.unique(array, return_counts=True)
     # values_center, counts_center = np.unique(center, return_counts=True) 
@@ -61,9 +65,12 @@ def create_stimulus(id, batch, nr_reds, nr_ai_reds, reds, blacks, shuffle=TRUE):
 
     array = np.concatenate([array_red, array_black])
     # ai_reds =  sum([ 1 for card in np.random.choice(array, ai_total, replace = False) if any(substring in card for substring in ["hearts","diamonds"])])
+    hidden = np.repeat('img/img_card_back.png', 16)
+    hidden = hidden.reshape((4,4))
     grid=array
     if shuffle==TRUE:
         grid_random = np.random.permutation(array).reshape(shape)[:,4:9]
+        grid_random = np.concatenate((hidden, grid_random,hidden), axis=1)
         # print(grid_random.size)
         # make the placement random 
         if (nr_reds <= nr_ai_reds*4+1) and (nr_reds >= nr_ai_reds*4-1):
@@ -76,7 +83,8 @@ def create_stimulus(id, batch, nr_reds, nr_ai_reds, reds, blacks, shuffle=TRUE):
             grid_hard = get_grid(array, nr_reds, prob_red=1-center_bias)
             grid_easy = get_grid(array, nr_reds, prob_red=center_bias)
     else:
-        return create_stimulus_dict(id, batch, grid.reshape(shape)[:,4:9], array, nr_reds, nr_ai_reds)
+        return create_stimulus_dict(id, batch,np.concatenate((hidden, grid.reshape(shape)[:,4:9],hidden), axis=1), array, nr_reds, nr_ai_reds)
+        # return create_stimulus_dict(id, batch, grid.reshape(shape)[:,4:9], array, nr_reds, nr_ai_reds)
     
     return (create_stimulus_dict(id, batch, grid_hard, array, nr_reds, nr_ai_reds),
             create_stimulus_dict(id, batch, grid_random, array, nr_reds, nr_ai_reds),

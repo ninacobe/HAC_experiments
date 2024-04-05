@@ -166,8 +166,8 @@ var size_check = {
         }else if (data.width/3 >= 350 && data.width/3 < 800){
             slider_size = (Math.round(data.width/3));
         }
-        // image_size = (Math.round(data.width/21), Math.round(data.height/11));
-        image_size = [Math.round(data.width/15), Math.round(data.height/6)];
+        image_size = (Math.round(data.width/21), Math.round(data.height/11));
+        // image_size = [Math.round(data.width/15), Math.round(data.height/6)];
         return true;
     }
 };
