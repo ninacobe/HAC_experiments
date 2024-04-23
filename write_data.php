@@ -63,7 +63,11 @@ try {
   $sql_meta = "INSERT INTO $table_meta VALUES(";
   for($i = 0; $i < count($col_names); $i++){
     $name = $col_names[$i];
-    $sql_meta .= ":$name";
+    if ($name == "date_of_completion"){
+      $sql_meta .= "CURRENT_TIMESTAMP";
+    } else {
+      $sql_meta .= ":$name";
+    }
     if($i != count($col_names)-1){
       $sql_meta .= ", ";
     }
@@ -76,7 +80,7 @@ try {
       if ($colname == "participant_id"){
         $insertstmt_meta->bindValue(":$colname", $id);
       } else if ($colname == "date_of_completion"){
-        $insertstmt_meta->bindValue(":$colname", "CURDATE()"); 
+        // ignore column
       } else if(!isset($data_array[$i][$colname])){
         $insertstmt_meta->bindValue(":$colname", null, PDO::PARAM_NULL);
       } else {
