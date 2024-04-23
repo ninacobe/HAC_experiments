@@ -75,6 +75,8 @@ try {
       $colname = $col_names[$j];
       if ($colname == "participant_id"){
         $insertstmt_meta->bindValue(":$colname", $id);
+      } else if ($colname == "date_of_completion"){
+        $insertstmt_meta->bindValue(":$colname", "CURDATE()"); 
       } else if(!isset($data_array[$i][$colname])){
         $insertstmt_meta->bindValue(":$colname", null, PDO::PARAM_NULL);
       } else {
