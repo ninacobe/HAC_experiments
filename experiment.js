@@ -181,8 +181,6 @@ var grid_AI_intro = attention_tests[1];
 
 /* add comprehension/training rounds */
 
-
-
 // var fixation = {
 //     type: jsPsychHtmlButtonResponse,
 //     stimulus: '<div style="font-size:60px;">+</div>',
