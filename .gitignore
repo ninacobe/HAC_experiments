@@ -6,3 +6,5 @@
 /.vscode
 /database_config.php
 /HAC-experiment.session.sql
+/materials/*old.json
+/*old*
