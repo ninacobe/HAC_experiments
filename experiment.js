@@ -367,7 +367,7 @@ var survey = {
       [
         {
           type: 'likert-table',
-          prompt: 'State how much you agree with following statements about the AI.',
+          prompt: 'State how much you agree with following statement about the AI.',
           name: 'statements',
           statements: instructions.survey[0],
           options: ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'],
