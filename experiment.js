@@ -442,7 +442,7 @@ var example = {
 var training = {
     // timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey, if_node],
     timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
-    timeline_variables: [attention_tests.at(0)] //slice(1,3)
+    timeline_variables: attention_tests.slice(1,3)
 }
 
 var halfway = Math.round(nr_trials/2)-1;
