@@ -75,10 +75,7 @@ function randomDrawn(game_pile, initial_decision, final_decision, example=false)
 
     return_string +=`<p> <br>Your initial bet was <span class=\"${initial_decision}\">${initial_decision}</span>. <br> Your final bet was <span class=\"${final_decision}\">${final_decision}</span>.</p>`
  
-    if (final_decision == card_color && initial_decision==card_color) {
-        points += 2
-        return_string +=`<p><br>You <span class=\"orange\">WON 2 </span> points!<br><br></p>`;
-    } else if (final_decision == card_color) {
+    if (final_decision == card_color) {
         points += 1
         return_string +=`<p><br>You <span class=\"orange\">WON 1 </span> point!<br><br></p>`;
     }  else {
@@ -284,7 +281,9 @@ var human_AI_conf = {
 
 var initial_decision = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: instructions.game_play.decision,
+    stimulus: function(){
+        return `Based on <span class=\"orange\"> your stated confidence of ${jsPsych.data.getLastTimelineData().select('human_conf').values.at(-1)}\% </span> that the picked card is red, ` + instructions.game_play.decision; 
+    },
     choices: ['Black','Red'],
     button_html: ['<button class="black-btn">%choice%</button>','<button class="red-btn">%choice%</button>'],
     data: {
@@ -299,7 +298,9 @@ var initial_decision = {
 
 var final_decision = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: instructions.game_play_AI.decision,
+    stimulus: function(){
+        return `Based on <span class=\"orange\"> your stated confidence of ${jsPsych.data.getLastTimelineData().select('human_AI_conf').values.at(-1)}\% </span> that the picked card is red, ` +instructions.game_play_AI.decision;
+    },
     choices: ['Black','Red'],
     button_html: ['<button class="black-btn">%choice%</button>','<button class="red-btn">%choice%</button>'],
     data: {
@@ -421,7 +422,7 @@ var if_node = {
 
 var start = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 5 cents (£0.04)</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
+    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 15 cents (£0.12)</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
     choices: ['Start Game >'],
     data: {
         task: 'start'
@@ -441,7 +442,7 @@ var example = {
 var training = {
     // timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey, if_node],
     timeline: [ game_pile, human_conf, initial_decision, human_AI_conf, final_decision, outcome, survey],
-    timeline_variables: attention_tests.slice(1,3)
+    timeline_variables: [attention_tests.at(0)] //slice(1,3)
 }
 
 var halfway = Math.round(nr_trials/2)-1;

@@ -13,11 +13,11 @@ select {
 .jspsych-display-element {
   color: #6e7072; 
  } 
-.red {
+.Red {
     color: #ee4a4a;
     font-weight: bold;
   }
-.black { /* OK, a bit contrived... */
+.Black { /* OK, a bit contrived... */
     color: #000000;
     font-weight: bold;
 }
@@ -64,7 +64,7 @@ select {
 .outcome-container {
   border: 1px solid #6e7072; /* Set the border style */
   display: inline-block;  /*Ensure the container wraps around the image */
-  width: 28%;
+  width: 20%;
 } 
 .image-container {
   border: 1px solid #6e7072; /* Set the border style */
