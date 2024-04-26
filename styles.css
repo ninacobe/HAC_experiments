@@ -25,6 +25,10 @@ select {
     /* color: #ff712c; */
     font-weight: bold;
 }
+.green{ /* OK, a bit contrived... */
+  color: #53e00d;
+  font-weight: bold;
+}
 .attention { /* OK, a bit contrived... */
   color: #d55b5b; 
   /* font-weight: bold; */
