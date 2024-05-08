@@ -21,6 +21,7 @@ nr_center = 21
 center_odds=1
 center_odds_other= 5
 total_stimuli = 1000
+total_stimuli_calibration = 2000
 
 # stimuli with most instances in 4-9 bin
 var_per_bin = {0:0, 1:5, 2:8, 3:9, 4:9, 5:10, 6:9, 7:9, 8:10, 9:9, 10:9, 11:8, 12:5, 13:0}
@@ -183,6 +184,7 @@ def get_proportions(df_bins):
     print("Human easy", df_weights["easy"]@DM_easy_util)
     print()
 
+    pd.concat([pd.concat([df_bins, df_bins, df_bins]), df_weights], axis=1).to_csv("df_weights.csv")
     return df_weights
 
 #sample shown cards and create a grid with hidden and shown cards
@@ -304,8 +306,18 @@ def create_stimulus_per_bin(reds, blacks):
 
         id_offset[level] +=len(bin_stimuli)
         stimuli_list[level] += bin_stimuli
+    
+    #generate stimuli for calibration data
+    calibration_data = []
+    choices = df_bins
+    weights = df_weights["hard"].values
 
-    return (stimuli_list["hard"], stimuli_list["random"], stimuli_list["easy"])
+    #sample cell and generate stimulus according to cell properties
+    for id, index in enumerate(rng.choice(np.arange(0,108), total_stimuli_calibration, replace = True, p=weights/weights.sum())):
+        stimuli = create_stimulus(id_offset["hard"] + id, "game", int(choices.loc[index]["true_reds"]),choices.loc[index]["AI_reds"], reds, blacks, level="hard")
+        calibration_data.append(stimuli)
+
+    return (stimuli_list["hard"], stimuli_list["random"], stimuli_list["easy"], calibration_data)
 
 #writes stimuli to json file
 def write_json_to_file(json_object, filename):
@@ -332,12 +344,13 @@ def create_all_stimuli():
     half_grid = create_stimulus(-4,"attention",round(nr_total/2),round(ai_total/2), reds, blacks, shuffle=FALSE)
 
     # create level stimuli
-    stimuli_hard, stimuli_random, stimuli_easy = create_stimulus_per_bin(reds, blacks)
+    stimuli_hard, stimuli_random, stimuli_easy, stimuli_hard_calibration = create_stimulus_per_bin(reds, blacks)
 
     # create json from dictionary
     stimuli_easy = json.dumps(stimuli_easy, indent=4)
     stimuli_hard = json.dumps(stimuli_hard, indent=4) 
     stimuli_random = json.dumps(stimuli_random, indent=4)
+    stimuli_hard_calibration = json.dumps(stimuli_hard_calibration, indent=4)
     attention = json.dumps([red_grid, black_grid, quarter_grid, half_grid], indent=4)
 
     # print estimated utilities
@@ -346,6 +359,10 @@ def create_all_stimuli():
     df_center_responses_hard = get_responses(stimuli_hard, attention,row, col, shape_center, nr_center )  
     df_center_responses_hard = discretize_confidence(df_center_responses_hard, conf_levels) 
     df_center_responses_hard["true_prob"] = df_center_responses_hard["nr_reds"]/df_center_responses_hard["nr_total"]*100
+
+    df_center_responses_hard_cal = get_responses(stimuli_hard_calibration, attention,row, col, shape_center, nr_center )  
+    df_center_responses_hard_cal = discretize_confidence(df_center_responses_hard_cal, conf_levels) 
+    df_center_responses_hard_cal["true_prob"] = df_center_responses_hard_cal["nr_reds"]/df_center_responses_hard_cal["nr_total"]*100
 
     df_center_responses_random = get_responses(stimuli_random, attention,row, col, shape_center, nr_center )  
     df_center_responses_random = discretize_confidence(df_center_responses_random, conf_levels) 
@@ -358,6 +375,9 @@ def create_all_stimuli():
     print("Level Hard")
     estimated_utility(df_center_responses_hard)
 
+    print("Level Hard Calibration")
+    estimated_utility(df_center_responses_hard_cal)
+
     print("Level Random")
     estimated_utility(df_center_responses_random)
 
@@ -368,9 +388,10 @@ def create_all_stimuli():
     write_json_to_file(stimuli_hard, "./materials/stimuli_hard.json")
     write_json_to_file(stimuli_random, "./materials/stimuli_random.json")
     write_json_to_file(stimuli_easy, "./materials/stimuli_easy.json")
+    write_json_to_file(stimuli_hard_calibration, "./materials/stimuli_hard_calibration.json")
     write_json_to_file(attention, "./materials/attention_tests.json")
 
-    return stimuli_hard, stimuli_random, stimuli_easy, attention
+    return stimuli_hard, stimuli_random, stimuli_easy, attention, stimuli_hard_calibration
 
 def main():
     create_all_stimuli()
