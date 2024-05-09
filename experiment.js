@@ -15,13 +15,13 @@ var study_id = jsPsych.data.getURLVariable('STUDY_ID');
 var session_id = jsPsych.data.getURLVariable('SESSION_ID');
 
 var level_string = "hard";
-var completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
-var attentionfail_URL = "https://app.prolific.com/submissions/complete?cc=CW2THAE9";
+var completion_URL = "https://app.prolific.com/submissions/complete?cc=CLTZQ0I2";
+var attentionfail_URL = "https://app.prolific.com/submissions/complete?cc=CKOIZN5W";
 switch (study_id){
-	case '65eb1e35f4605acd28770e99':
+	case '663ce0a28ea3b8945f09b25c':
 	  	level_string = "hard";
-	  	completion_URL = "https://app.prolific.com/submissions/complete?cc=C1501Z5C";
-		attentionfail_URL = "https://app.prolific.com/submissions/complete?cc=CW2THAE9";
+	  	completion_URL = "https://app.prolific.com/submissions/complete?cc=CLTZQ0I2";
+		attentionfail_URL = "https://app.prolific.com/submissions/complete?cc=CKOIZN5W";
 		break;
 	case '65f33c8a3a114f6518219cd1':
 	  	level_string = "random";
@@ -422,7 +422,7 @@ var if_node = {
 
 var start = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 15 cents (£0.12)</span>. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
+    stimulus: "<p> Let's start the game! <br><br> From now on we will count the points in each round. <br> When the game finishes, <span class=\"orange\">each point</span> you have gained translates into a <span class=\"orange\">monetary bonus of 15 cents (£0.12)</span>. <br> Negative or zero points result in no bonus. <br><br> Please, do not cheat in any kind of way during the game! <br><br></p>",
     choices: ['Start Game >'],
     data: {
         task: 'start'
